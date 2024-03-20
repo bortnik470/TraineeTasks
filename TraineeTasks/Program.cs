@@ -1,5 +1,5 @@
 ﻿using TraineeTasks.CookingSimulator;
 
-Kitchen kitchenSimulator = new Kitchen();
+TraineeTasks.CookingSimulator.Kitchen kitchenSimulator = new TraineeTasks.CookingSimulator.Kitchen();
 
 kitchenSimulator.Start();

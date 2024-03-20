@@ -8,79 +8,82 @@ namespace TraineeTasks.CookingSimulator.CookingProcesses
 {
     internal static class CookingProcesses
     {
+        public static Semaphore _humanSimulationSemaphore = new Semaphore(3, 3);
         private static object fryLock = new object();
         private static object panLock = new object();
 
         public static void Fry(int fryTime = 6000)
         {
+            _humanSimulationSemaphore.WaitOne();
             lock (fryLock)
             {
-                Console.Write(Thread.CurrentThread.ManagedThreadId + " ");
-                Console.WriteLine("Start frying");
-                
+                Console.WriteLine($"{Thread.CurrentThread.Name} Start frying\n");
+
+                _humanSimulationSemaphore.Release();
+
                 Thread.Sleep(fryTime);
                 
-                Console.Write(Thread.CurrentThread.ManagedThreadId + " ");
-                Console.WriteLine("Frying is end");
+                Console.WriteLine($"{Thread.CurrentThread.Name} Frying is end\n");
             }
         }
 
         public static void Boil(int boilTime = 10000)
         {
+            _humanSimulationSemaphore.WaitOne();
             lock (panLock)
             {
-                Console.Write(Thread.CurrentThread.ManagedThreadId + " ");
-                Console.WriteLine("Start boiling");
-                
+                Console.WriteLine($"{Thread.CurrentThread.Name} Start boiling\n");
+
+                _humanSimulationSemaphore.Release();
+
                 Thread.Sleep(boilTime);
                 
-                Console.Write(Thread.CurrentThread.ManagedThreadId + " ");
-                Console.WriteLine("Boiling is end");
+                Console.WriteLine($"{Thread.CurrentThread.Name} Boiling is end\n");
             }
         }
 
         public static void Peel(int peelTime = 3000)
         {
-            Console.Write(Thread.CurrentThread.ManagedThreadId + " ");
-            Console.WriteLine("Peeling");
+            _humanSimulationSemaphore.WaitOne();
+            Console.WriteLine($"{Thread.CurrentThread.Name} Peeling\n");
             
             Thread.Sleep(peelTime);
 
-            Console.Write(Thread.CurrentThread.ManagedThreadId + " ");
-            Console.WriteLine("Peeling is end");
+            Console.WriteLine($"{Thread.CurrentThread.Name} Peeling is end\n");
+            _humanSimulationSemaphore.Release();
         }
 
         public static void Wash(int wahsTime = 8000)
         {
-            Console.Write(Thread.CurrentThread.ManagedThreadId + " ");
-            Console.WriteLine("Washing");
+            _humanSimulationSemaphore.WaitOne();
+            Console.WriteLine($"{Thread.CurrentThread.Name} Washing\n");
             
             Thread.Sleep(wahsTime);
 
-            Console.Write(Thread.CurrentThread.ManagedThreadId + " ");
-            Console.WriteLine("Washing is end");
+            Console.WriteLine($"{Thread.CurrentThread.Name} Washing is end\n");
+            _humanSimulationSemaphore.Release();
         }
 
         public static void Cut(int cutTime = 5000)
         {
-            Console.Write(Thread.CurrentThread.ManagedThreadId + " ");
-            Console.WriteLine("Cutting");
+            _humanSimulationSemaphore.WaitOne();
+            Console.WriteLine($"{Thread.CurrentThread.Name} Cutting\n");
             
             Thread.Sleep(cutTime);
 
-            Console.Write(Thread.CurrentThread.ManagedThreadId + " ");
-            Console.WriteLine("Cutting is end");
+            Console.WriteLine($"{Thread.CurrentThread.Name} Cutting is end\n");
+            _humanSimulationSemaphore.Release();
         }
 
         public static void Mix(int mixTime = 5000)
         {
-            Console.Write(Thread.CurrentThread.ManagedThreadId + " ");
-            Console.WriteLine("Start mixing");
+            _humanSimulationSemaphore.WaitOne();
+            Console.WriteLine($"{Thread.CurrentThread.Name} Start mixing\n");
             
             Thread.Sleep(mixTime);
 
-            Console.Write(Thread.CurrentThread.ManagedThreadId + " ");
-            Console.WriteLine("Mixing is end");
+            Console.WriteLine($"{Thread.CurrentThread.Name} Mixing is end\n");
+            _humanSimulationSemaphore.Release();
         }
     }
 }

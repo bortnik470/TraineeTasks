@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Kitchen.CookingSimulator.HelperClasses;
+using Kitchen.CookingSimulator.Interfaces;
 using TraineeTasks.CookingSimulator.CookingProcesses.Recipets.DessertRecipets;
 using TraineeTasks.CookingSimulator.CookingProcesses.Recipets.MainDishRecipets;
 using TraineeTasks.CookingSimulator.CookingProcesses.Recipets.SaladRecipets;
 using TraineeTasks.CookingSimulator.CookingProcesses.Recipets.SecondDishRecipets;
 using TraineeTasks.CookingSimulator.CookingProcesses.Recipets.SideDishRecipets;
 using TraineeTasks.CookingSimulator.CookingProcesses.Recipets.SoupRecipets;
-using TraineeTasks.CookingSimulator.Enums;
 
 namespace TraineeTasks.CookingSimulator
 {
@@ -17,42 +13,23 @@ namespace TraineeTasks.CookingSimulator
     {
         public void Start()
         {
-            Thread humanSimulationThread = new Thread(() => Cook(DishName.Salad, DishName.Soup, DishName.MainDish, DishName.SideDish, DishName.SecondDish, 
-                DishName.Desert));
+            Queue<IDishRecipe> dishesToCook = new Queue<IDishRecipe>(new List<IDishRecipe> { new StandartDessertRecipets(), new StandartMainDishRecipet(),
+                new SecondDishRecipet(), new SaladStandartRecipets(), 
+                new SideDishRecipet(), new StandartSoupRecipet() });
 
-            humanSimulationThread.Start();
+            CustomThreadPool threadPool = new CustomThreadPool(5, Cook);
 
-            humanSimulationThread.Join();
+            foreach(var dish in dishesToCook)
+            {
+                threadPool.Start(dish);
+            }
+
+            Console.ReadLine();
         }
 
-        private void Cook(params DishName[] dishName)
+        private void Cook(object dish)
         {
-            foreach (var dish in dishName)
-            {
-                switch (dish)
-                {
-                    case DishName.Desert:
-                        new Thread(() => StandartDessertRecipets.StartToCook()).Start();
-                        break;
-                    case DishName.MainDish:
-                        new Thread(() => StandartMainDishRecipet.StartToCook()).Start();
-                        break;
-                    case DishName.SecondDish:
-                        new Thread(() => SecondDishRecipet.StartToCook()).Start();
-                        break;
-                    case DishName.Salad:
-                        new Thread(() => SaladStandartRecipets.StartToCook()).Start();
-                        break;
-                    case DishName.SideDish:
-                        new Thread(() => SideDishRecipet.StartToCook()).Start();
-                        break;
-                    case DishName.Soup:
-                        new Thread(() => StandartSoupRecipet.StartToCook()).Start();
-                        break;
-                    case DishName.None:
-                        break;
-                }
-            }
+            ((IDishRecipe)dish).StartToCook();
         }
     }
 }
