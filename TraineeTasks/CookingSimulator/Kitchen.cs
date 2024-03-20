@@ -7,6 +7,7 @@ using TraineeTasks.CookingSimulator.CookingProcesses.Recipets.SecondDishRecipets
 using TraineeTasks.CookingSimulator.CookingProcesses.Recipets.SideDishRecipets;
 using TraineeTasks.CookingSimulator.CookingProcesses.Recipets.SoupRecipets;
 
+
 namespace TraineeTasks.CookingSimulator
 {
     internal class Kitchen
@@ -17,7 +18,7 @@ namespace TraineeTasks.CookingSimulator
                 new SecondDishRecipet(), new SaladStandartRecipets(), 
                 new SideDishRecipet(), new StandartSoupRecipet() });
 
-            CustomThreadPool threadPool = new CustomThreadPool(5, Cook);
+            CustomThreadPool threadPool = new CustomThreadPool(CookingProcesses.CookingProcesses.maxThreadValue, Cook);
 
             foreach(var dish in dishesToCook)
             {

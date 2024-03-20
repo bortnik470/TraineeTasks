@@ -8,7 +8,10 @@ namespace TraineeTasks.CookingSimulator.CookingProcesses
 {
     internal static class CookingProcesses
     {
-        public static Semaphore _humanSimulationSemaphore = new Semaphore(3, 3);
+        //controls the maximum number of threads that used in kitchen simulation
+        public static int maxThreadValue = 3;
+
+        public static Semaphore _humanSimulationSemaphore = new Semaphore(maxThreadValue, maxThreadValue);
         private static object fryLock = new object();
         private static object panLock = new object();
 
