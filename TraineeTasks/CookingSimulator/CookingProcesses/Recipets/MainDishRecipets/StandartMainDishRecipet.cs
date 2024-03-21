@@ -18,13 +18,23 @@ namespace TraineeTasks.CookingSimulator.CookingProcesses.Recipets.MainDishRecipe
 
         public void StartToCook()
         {
+            Console.WriteLine($"----------\nStart to cook a {Name}\n----------");
+
             Thread.CurrentThread.Name = Name;
 
             CookingProcesses.Wash();
 
             CookingProcesses.Cut();
 
-            new Thread(() => CookingProcesses.Fry()).Start();
+            Thread fryThread = new Thread(() => CookingProcesses.Fry())
+            {
+                Name = this.Name
+            };
+
+            fryThread.Start();
+
+            fryThread.Join();
+            Console.WriteLine($"----------\n{Name} cooked\n----------");
         }
     }
 }

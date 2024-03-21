@@ -18,6 +18,8 @@ namespace TraineeTasks.CookingSimulator.CookingProcesses.Recipets.SideDishRecipe
 
         public void StartToCook()
         {
+            Console.WriteLine($"----------\nStart to cook a {Name}\n----------");
+
             Thread.CurrentThread.Name = Name;
 
             CookingProcesses.Wash();
@@ -26,7 +28,15 @@ namespace TraineeTasks.CookingSimulator.CookingProcesses.Recipets.SideDishRecipe
 
             CookingProcesses.Cut(10000);
 
-            new Thread(() => CookingProcesses.Boil(12000)).Start();
+            Thread boilThread = new Thread(() => CookingProcesses.Boil(12000))
+            {
+                Name = this.Name
+            };
+
+            boilThread.Start();
+
+            boilThread.Join();
+            Console.WriteLine($"----------\n{Name} cooked\n----------");
         }
     }
 }

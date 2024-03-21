@@ -22,10 +22,10 @@ namespace TraineeTasks.CookingSimulator
 
             foreach(var dish in dishesToCook)
             {
-                threadPool.Start(dish);
+                threadPool.AddDish(dish);
             }
 
-            Console.ReadLine();
+            if(Console.ReadLine() != null) threadPool.EndWork();
         }
 
         private void Cook(object dish)

@@ -17,13 +17,23 @@ namespace TraineeTasks.CookingSimulator.CookingProcesses.Recipets.SecondDishReci
         public string Name { get; set; }
         public void StartToCook()
         {
+            Console.WriteLine($"----------\nStart to cook a {Name}\n----------");
+
             Thread.CurrentThread.Name = Name;
 
             CookingProcesses.Wash();
 
             CookingProcesses.Cut(10000);
 
-            new Thread(() => CookingProcesses.Fry(12000)).Start();
+            Thread fryThread = new Thread(() => CookingProcesses.Fry(12000))
+            {
+                Name = this.Name
+            };
+
+            fryThread.Start();
+
+            fryThread.Join();
+            Console.WriteLine($"----------\n{Name} cooked\n----------");
         }
     }
 }

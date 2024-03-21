@@ -17,6 +17,7 @@ namespace TraineeTasks.CookingSimulator.CookingProcesses.Recipets.DessertRecipet
         public string Name { get; set; }
         public void StartToCook()
         {
+            Console.WriteLine($"----------\nStart to cook a {Name}\n----------");
             Thread.CurrentThread.Name = Name;
 
             CookingProcesses.Peel();
@@ -24,6 +25,7 @@ namespace TraineeTasks.CookingSimulator.CookingProcesses.Recipets.DessertRecipet
             CookingProcesses.Cut();
 
             CookingProcesses.Mix();
+            Console.WriteLine($"----------\n{Name} cooked\n----------");
         }
     }
 }
