@@ -31,7 +31,7 @@ namespace Kitchen.CookingSimulator.HelperClasses
 
             for (int i = 0; i < maxThread; i++)
             {
-                threads[i] = new Thread(ThreadLifeCycle);
+                threads[i] = new Thread(ThreadLifeCycle) { Name = $"{i + 1} cook"};
                 threads[i].Start();
             }
         }
@@ -64,7 +64,7 @@ namespace Kitchen.CookingSimulator.HelperClasses
                 }
                 else
                 {
-                    lock (dishQueue)
+                    lock (dishQueueLock)
                     {
                         dish = dishQueue.Dequeue();
                     }

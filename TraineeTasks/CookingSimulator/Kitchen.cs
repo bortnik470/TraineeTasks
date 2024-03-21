@@ -1,5 +1,6 @@
 ﻿using Kitchen.CookingSimulator.HelperClasses;
 using Kitchen.CookingSimulator.Interfaces;
+using System.Configuration;
 using TraineeTasks.CookingSimulator.CookingProcesses.Recipets.DessertRecipets;
 using TraineeTasks.CookingSimulator.CookingProcesses.Recipets.MainDishRecipets;
 using TraineeTasks.CookingSimulator.CookingProcesses.Recipets.SaladRecipets;
@@ -14,9 +15,11 @@ namespace TraineeTasks.CookingSimulator
     {
         public void Start()
         {
-            Queue<IDishRecipe> dishesToCook = new Queue<IDishRecipe>(new List<IDishRecipe> { new StandartDessertRecipets(), new StandartMainDishRecipet(),
+            if (!int.TryParse(ConfigurationManager.AppSettings["maxThreadValue"], out CookingProcesses.CookingProcesses.maxThreadValue)) throw new Exception();
+
+            Queue<IDishRecipe> dishesToCook = new Queue<IDishRecipe>( [ new StandartDessertRecipets(), new StandartMainDishRecipet(),
                 new SecondDishRecipet(), new SaladStandartRecipets(), 
-                new SideDishRecipet(), new StandartSoupRecipet() });
+                new SideDishRecipet(), new StandartSoupRecipet() ] );
 
             CustomThreadPool threadPool = new CustomThreadPool(CookingProcesses.CookingProcesses.maxThreadValue, Cook);
 

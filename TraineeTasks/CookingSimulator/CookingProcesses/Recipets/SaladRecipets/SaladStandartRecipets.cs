@@ -18,16 +18,18 @@ namespace TraineeTasks.CookingSimulator.CookingProcesses.Recipets.SaladRecipets
 
         public void StartToCook()
         {
-            Console.WriteLine($"----------\nStart to cook a {Name}\n----------");
-
-            Thread.CurrentThread.Name = Name;
+            Console.WriteLine($"--------------\n" +
+                $"{Thread.CurrentThread.Name} start to cook a {Name}" +
+                $"\n--------------");
 
             CookingProcesses.Wash();
 
             CookingProcesses.Cut(10000);
 
             CookingProcesses.Mix();
-            Console.WriteLine($"----------\n{Name} cooked\n----------");
+            Console.WriteLine($"--------------\n" +
+                $"{Thread.CurrentThread.Name} finish to cook a {Name}" +
+                $"\n--------------");
         }
     }
 }
