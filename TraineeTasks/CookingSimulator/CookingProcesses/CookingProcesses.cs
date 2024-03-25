@@ -12,44 +12,47 @@ namespace TraineeTasks.CookingSimulator.CookingProcesses
         public static int maxThreadValue = 3;
 
         public static Semaphore _humanSimulationSemaphore = new Semaphore(maxThreadValue, maxThreadValue);
-        private static object fryLock = new object();
-        private static object panLock = new object();
+        private static AutoResetEvent fryResetEvent = new AutoResetEvent(true);
+        private static AutoResetEvent panResetEvent = new AutoResetEvent(true);
 
-        public static void Fry(int fryTime = 6000)
+        public static async Task Fry(int fryTime = 6000)
         {
             _humanSimulationSemaphore.WaitOne();
-            lock (fryLock)
-            {
-                Console.WriteLine($"{Thread.CurrentThread.Name} Start frying\n");
+            string cookName = Thread.CurrentThread.Name;
 
-                _humanSimulationSemaphore.Release();
+            fryResetEvent.WaitOne();
+            Console.WriteLine($"{cookName} Start frying\n");
 
-                Thread.Sleep(fryTime);
-                
-                Console.WriteLine($"{Thread.CurrentThread.Name} Frying is end\n");
-            }
+            _humanSimulationSemaphore.Release();
+
+            await Task.Delay(fryTime);
+
+            Console.WriteLine($"{cookName} Frying is end\n");
+            fryResetEvent.Set();
         }
 
-        public static void Boil(int boilTime = 10000)
+        public static async Task Boil(int boilTime = 10000)
         {
             _humanSimulationSemaphore.WaitOne();
-            lock (panLock)
-            {
-                Console.WriteLine($"{Thread.CurrentThread.Name} Start boiling\n");
 
-                _humanSimulationSemaphore.Release();
+            string cookName = Thread.CurrentThread.Name;
 
-                Thread.Sleep(boilTime);
-                
-                Console.WriteLine($"{Thread.CurrentThread.Name} Boiling is end\n");
-            }
+            panResetEvent.WaitOne();
+            Console.WriteLine($"{cookName} Start boiling\n");
+
+            _humanSimulationSemaphore.Release();
+
+            await Task.Delay(boilTime);
+
+            Console.WriteLine($"{cookName} Boiling is end\n");
+            panResetEvent.Set();
         }
 
         public static void Peel(int peelTime = 3000)
         {
             _humanSimulationSemaphore.WaitOne();
             Console.WriteLine($"{Thread.CurrentThread.Name} Peeling\n");
-            
+
             Thread.Sleep(peelTime);
 
             Console.WriteLine($"{Thread.CurrentThread.Name} Peeling is end\n");
@@ -60,7 +63,7 @@ namespace TraineeTasks.CookingSimulator.CookingProcesses
         {
             _humanSimulationSemaphore.WaitOne();
             Console.WriteLine($"{Thread.CurrentThread.Name} Washing\n");
-            
+
             Thread.Sleep(wahsTime);
 
             Console.WriteLine($"{Thread.CurrentThread.Name} Washing is end\n");
@@ -71,7 +74,7 @@ namespace TraineeTasks.CookingSimulator.CookingProcesses
         {
             _humanSimulationSemaphore.WaitOne();
             Console.WriteLine($"{Thread.CurrentThread.Name} Cutting\n");
-            
+
             Thread.Sleep(cutTime);
 
             Console.WriteLine($"{Thread.CurrentThread.Name} Cutting is end\n");
@@ -82,7 +85,7 @@ namespace TraineeTasks.CookingSimulator.CookingProcesses
         {
             _humanSimulationSemaphore.WaitOne();
             Console.WriteLine($"{Thread.CurrentThread.Name} Start mixing\n");
-            
+
             Thread.Sleep(mixTime);
 
             Console.WriteLine($"{Thread.CurrentThread.Name} Mixing is end\n");

@@ -5,31 +5,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TraineeTasks.CookingSimulator.CookingProcesses.Recipets.DessertRecipets
+namespace Kitchen.CookingSimulator.CookingProcesses.Recipets
 {
-    internal class StandartDessertRecipets : IDishRecipe
+    internal abstract class BaseRecipe : IDishRecipe
     {
-        public StandartDessertRecipets()
-        {
-            Name = "Dessert";
-        }
+        public string Name { get; private set; }
 
-        public string Name { get; set; }
+        public BaseRecipe(string name) => Name = name;
+
         public void StartToCook()
         {
             Console.WriteLine($"--------------\n" +
                 $"{Thread.CurrentThread.Name} start to cook a {Name}" +
                 $"\n--------------");
 
-            CookingProcesses.Peel();
-
-            CookingProcesses.Cut();
-
-            CookingProcesses.Mix();
+            ActionsToCook();
 
             Console.WriteLine($"--------------\n" +
                 $"{Thread.CurrentThread.Name} finish to cook a {Name}" +
                 $"\n--------------");
         }
+
+        protected abstract void ActionsToCook(); 
     }
 }

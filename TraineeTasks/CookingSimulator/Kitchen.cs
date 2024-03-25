@@ -15,11 +15,12 @@ namespace TraineeTasks.CookingSimulator
     {
         public void Start()
         {
-            if (!int.TryParse(ConfigurationManager.AppSettings["maxThreadValue"], out CookingProcesses.CookingProcesses.maxThreadValue)) throw new Exception();
+            if (!int.TryParse(ConfigurationManager.AppSettings["maxThreadValue"], out CookingProcesses.CookingProcesses.maxThreadValue)) 
+                throw new ConfigurationErrorsException("maxThreadValue in the app.config should contain an int value");
 
-            Queue<IDishRecipe> dishesToCook = new Queue<IDishRecipe>( [ new StandartDessertRecipets(), new StandartMainDishRecipet(),
-                new SecondDishRecipet(), new SaladStandartRecipets(), 
-                new SideDishRecipet(), new StandartSoupRecipet() ] );
+            Queue<IDishRecipe> dishesToCook = new Queue<IDishRecipe>([ new StandartDessertRecipe(), new StandartMainDishRecipes(),
+                new SecondDishRecipe(), new SaladStandartRecipes(),
+                new SideDishRecipe(), new StandartSoupRecipe() ]);
 
             CustomThreadPool threadPool = new CustomThreadPool(CookingProcesses.CookingProcesses.maxThreadValue, Cook);
 
