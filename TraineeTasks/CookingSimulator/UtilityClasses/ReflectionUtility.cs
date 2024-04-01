@@ -25,5 +25,10 @@ namespace Kitchen.CookingSimulator.UtilityClasses
         {
             return Activator.CreateInstance(classType);
         }
+
+        public void changeAssembly(string pathToAssembly)
+        {
+            _assembly = Assembly.LoadFrom(pathToAssembly);
+        }
     }
 }

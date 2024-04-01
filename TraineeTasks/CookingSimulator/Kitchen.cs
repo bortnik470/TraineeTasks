@@ -33,7 +33,8 @@ namespace TraineeTasks.CookingSimulator
 
             CustomThreadPool threadPool = new CustomThreadPool(CookingProcesses.maxThreadValue, Cook);
 
-            foreach(var dish in dishRecipes)
+
+            foreach (var dish in dishRecipes)
             {
                 threadPool.AddDish(dish);
             }
