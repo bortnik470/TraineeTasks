@@ -1,13 +1,8 @@
-﻿using Kitchen.CookingSimulator.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using RecipeRequirement.Interfaces;
 
-namespace Kitchen.CookingSimulator.CookingProcesses.Recipets
+namespace RecipeRequirement
 {
-    internal abstract class BaseRecipe : IDishRecipe
+    public abstract class BaseRecipe : IDishRecipe
     {
         public string Name { get; private set; }
 
@@ -19,13 +14,13 @@ namespace Kitchen.CookingSimulator.CookingProcesses.Recipets
                 $"{Thread.CurrentThread.Name} start to cook a {Name}" +
                 $"\n--------------");
 
-            ActionsToCook();
+            ActionsToCookAsync();
 
             Console.WriteLine($"--------------\n" +
                 $"{Thread.CurrentThread.Name} finish to cook a {Name}" +
                 $"\n--------------");
         }
 
-        protected abstract void ActionsToCook(); 
+        protected abstract void ActionsToCookAsync();
     }
 }

@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34701.34
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kitchen", "TraineeTasks\Kitchen.csproj", "{6EB85931-CB49-4642-88B0-4D3ED89FA0F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kitchen", "TraineeTasks\Kitchen.csproj", "{6EB85931-CB49-4642-88B0-4D3ED89FA0F9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "KitchenExtensions", "KitchenExtensions", "{8843FB95-6233-459C-8BD2-007E86180645}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecipeRequirement", "RecipeRequirement\RecipeRequirement.csproj", "{98282B3E-0C50-4E61-9455-33A4F110DEF5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EastCuisine", "EastCuisine\EastCuisine.csproj", "{8D93C8DF-919F-4CCF-A2F6-2110B361263E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +21,21 @@ Global
 		{6EB85931-CB49-4642-88B0-4D3ED89FA0F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6EB85931-CB49-4642-88B0-4D3ED89FA0F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6EB85931-CB49-4642-88B0-4D3ED89FA0F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98282B3E-0C50-4E61-9455-33A4F110DEF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98282B3E-0C50-4E61-9455-33A4F110DEF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98282B3E-0C50-4E61-9455-33A4F110DEF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98282B3E-0C50-4E61-9455-33A4F110DEF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D93C8DF-919F-4CCF-A2F6-2110B361263E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D93C8DF-919F-4CCF-A2F6-2110B361263E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D93C8DF-919F-4CCF-A2F6-2110B361263E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D93C8DF-919F-4CCF-A2F6-2110B361263E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{98282B3E-0C50-4E61-9455-33A4F110DEF5} = {8843FB95-6233-459C-8BD2-007E86180645}
+		{8D93C8DF-919F-4CCF-A2F6-2110B361263E} = {8843FB95-6233-459C-8BD2-007E86180645}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A23D1AFC-935A-4C30-8460-3ABD9C3E2027}

@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TraineeTasks.CookingSimulator.CookingProcesses
+﻿namespace RecipeRequirement
 {
-    internal static class CookingProcesses
+    public static class CookingProcesses
     {
         //controls the maximum number of threads that used in kitchen simulation
         public static int maxThreadValue = 3;

@@ -1,12 +1,14 @@
-﻿using Kitchen.CookingSimulator.HelperClasses;
-using Kitchen.CookingSimulator.Interfaces;
-using System.Configuration;
-using TraineeTasks.CookingSimulator.CookingProcesses.Recipets.DessertRecipets;
-using TraineeTasks.CookingSimulator.CookingProcesses.Recipets.MainDishRecipets;
-using TraineeTasks.CookingSimulator.CookingProcesses.Recipets.SaladRecipets;
-using TraineeTasks.CookingSimulator.CookingProcesses.Recipets.SecondDishRecipets;
-using TraineeTasks.CookingSimulator.CookingProcesses.Recipets.SideDishRecipets;
-using TraineeTasks.CookingSimulator.CookingProcesses.Recipets.SoupRecipets;
+﻿using System.Configuration;
+using RecipeRequirement.Interfaces;
+using Kitchen.CookingSimulator.HelperClasses;
+using Kitchen.CookingSimulator.Recipes.SecondDishRecipes;
+using Kitchen.CookingSimulator.Recipes.SideDishRecipes;
+using Kitchen.CookingSimulator.Recipes.DessertRecipes;
+using Kitchen.CookingSimulator.Recipes.SoupRecipes;
+using Kitchen.CookingSimulator.Recipes.MainDishRecipes;
+using Kitchen.CookingSimulator.Recipes.SaladRecipes;
+using RecipeRequirement;
+using Kitchen.CookingSimulator.UtilityClasses;
 
 
 namespace TraineeTasks.CookingSimulator
@@ -15,16 +17,23 @@ namespace TraineeTasks.CookingSimulator
     {
         public void Start()
         {
-            if (!int.TryParse(ConfigurationManager.AppSettings["maxThreadValue"], out CookingProcesses.CookingProcesses.maxThreadValue)) 
+            RecipeGetter recipeGetter = new RecipeGetter(ConfigurationManager.AppSettings["pathToRecipes"]);
+
+            if (!int.TryParse(ConfigurationManager.AppSettings["maxThreadValue"], out CookingProcesses.maxThreadValue)) 
                 throw new ConfigurationErrorsException("maxThreadValue in the app.config should contain an int value");
 
-            Queue<IDishRecipe> dishesToCook = new Queue<IDishRecipe>([ new StandartDessertRecipe(), new StandartMainDishRecipes(),
-                new SecondDishRecipe(), new SaladStandartRecipes(),
-                new SideDishRecipe(), new StandartSoupRecipe() ]);
+            IEnumerable<IDishRecipe> dishRecipes = recipeGetter.GetAllRecipes().Union([
+                new StandartDessertRecipe(),
+                new StandartMainDishRecipes(),
+                new SecondDishRecipe(),
+                new SaladStandartRecipes(),
+                new SideDishRecipe(),
+                new StandartSoupRecipe(),
+                ]);
 
-            CustomThreadPool threadPool = new CustomThreadPool(CookingProcesses.CookingProcesses.maxThreadValue, Cook);
+            CustomThreadPool threadPool = new CustomThreadPool(CookingProcesses.maxThreadValue, Cook);
 
-            foreach(var dish in dishesToCook)
+            foreach(var dish in dishRecipes)
             {
                 threadPool.AddDish(dish);
             }
