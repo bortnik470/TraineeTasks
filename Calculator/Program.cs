@@ -1,0 +1,1 @@
+﻿Console.WriteLine(Math.Pow(4,-1));

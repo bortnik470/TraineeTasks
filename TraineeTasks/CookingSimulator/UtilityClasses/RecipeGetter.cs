@@ -25,7 +25,7 @@ namespace Kitchen.CookingSimulator.UtilityClasses
                     reflectionUtility = new ReflectionUtility(filePath);
                 } else reflectionUtility.changeAssembly(filePath);
 
-                var recipeTypes = reflectionUtility.GetTypes().Select(x => x).
+                var recipeTypes = reflectionUtility.GetTypes().
                     Where(t => t.BaseType.Equals(typeof(BaseRecipe)));
 
                 foreach (var recipeType in recipeTypes)
