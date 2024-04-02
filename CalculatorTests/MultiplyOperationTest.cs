@@ -23,7 +23,7 @@ namespace Calculator
 
             foreach (var item in testData)
             {
-                result.Add(Calculator.DivisionOperation(item[0], item[1]));
+                result.Add(Calculator.MultiplyOperation(item[0], item[1]));
             }
 
             Assert.Equal(1, result[0]);

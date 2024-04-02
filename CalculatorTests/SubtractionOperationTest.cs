@@ -15,8 +15,8 @@ namespace Calculator
             {
                 [1, 1],
                 [-1, 4],
-                [1.9999,
-                2.9999]
+                [4, 2],
+                [4, 5]
             };
             List<double> result = new List<double>();
 
@@ -27,7 +27,8 @@ namespace Calculator
 
             Assert.Equal(0, result[0]);
             Assert.Equal(-5, result[1]);
-            Assert.Equal(-1, result[2]);
+            Assert.Equal(2, result[2]);
+            Assert.Equal(-1, result[3]);
         }
     }
 }
