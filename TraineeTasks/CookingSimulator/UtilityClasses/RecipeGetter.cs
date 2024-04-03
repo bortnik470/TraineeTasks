@@ -6,7 +6,7 @@ namespace Kitchen.CookingSimulator.UtilityClasses
 {
     internal class RecipeGetter
     {
-        ReflectionUtility reflectionUtility;
+        ReflectionUtility? reflectionUtility;
         private readonly string pathToRecipes;
 
         public RecipeGetter(string pathToRecipes)
@@ -18,18 +18,25 @@ namespace Kitchen.CookingSimulator.UtilityClasses
         public IEnumerable<IDishRecipe> GetAllRecipes()
         {
             var recipeFilesPath = Directory.EnumerateFiles(pathToRecipes);
-            foreach(var filePath in recipeFilesPath)
+            foreach (var filePath in recipeFilesPath)
             {
                 if (reflectionUtility == null)
                 {
                     reflectionUtility = new ReflectionUtility(filePath);
-                } else reflectionUtility.changeAssembly(filePath);
+                }
+                else reflectionUtility.changeAssembly(filePath);
 
-                var recipeTypes = reflectionUtility.GetTypes().
-                    Where(t => t.BaseType.Equals(typeof(BaseRecipe)));
+                Type interfaceType = typeof(IDishRecipe);
+
+                var recipeTypes = reflectionUtility.GetTypes();
 
                 foreach (var recipeType in recipeTypes)
-                    yield return (IDishRecipe)reflectionUtility.CreateClass(recipeType);
+                {
+                    if (interfaceType.IsAssignableFrom(recipeType) && !recipeType.IsInterface)
+                    {
+                        yield return (IDishRecipe)reflectionUtility.CreateClass(recipeType);
+                    }
+                }
             }
         }
     }
