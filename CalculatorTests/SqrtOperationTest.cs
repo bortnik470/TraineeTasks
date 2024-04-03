@@ -8,27 +8,16 @@ namespace Calculator
 {
     public class SqrtOperationTest
     {
-        [Fact]
-        public void StandartSqrtOperationsTest()
+        [Theory]
+        [InlineData([1, 1])]
+        [InlineData([4, 2])]
+        [InlineData([100, 10])]
+        [InlineData([0, 0])]
+        public void StandartSqrtOperationsTest(double x, double expectedResult)
         {
-            var testData = new double[]
-            {
-                1,
-                4,
-                100,
-                0
-            };
-            List<double> result = new List<double>();
+            double result = Calculator.SqrtOperation(x);
 
-            foreach (var item in testData)
-            {
-                result.Add(Calculator.SqrtOperation(item));
-            }
-
-            Assert.Equal(1, result[0]);
-            Assert.Equal(2, result[1]);
-            Assert.Equal(10, result[2]);
-            Assert.Equal(0, result[3]);
+            Assert.Equal(expectedResult, result, 2);
         }
 
         [Fact]

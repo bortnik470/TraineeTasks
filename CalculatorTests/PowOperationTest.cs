@@ -8,8 +8,14 @@ namespace Calculator
 {
     public class PowOperationTest
     {
-        [Fact]
-        public void StandartPowOperationTest()
+        [Theory]
+        [InlineData([20, 0, 1])]
+        [InlineData([-1, 4, 1])]
+        [InlineData([4, 2, 16])]
+        [InlineData([-2, 3, -8])]
+        [InlineData([34, 1, 34])]
+        [InlineData([4, -1, 0.25])]
+        public void StandartPowOperationTest(double x, double y, double expectedResult)
         {
             var testData = new double[][]
             {
@@ -20,19 +26,9 @@ namespace Calculator
                 [34, 1],
                 [4, -1]
             };
-            List<double> result = new List<double>();
+            double result = Calculator.PowOperation(x, y);
 
-            foreach (var item in testData)
-            {
-                result.Add(Calculator.PowOperation(item[0], item[1]));
-            }
-
-            Assert.Equal(1, result[0]);
-            Assert.Equal(1, result[1]);
-            Assert.Equal(16, result[2]);
-            Assert.Equal(-8, result[3]);
-            Assert.Equal(34, result[4]);
-            Assert.Equal(0.25, result[5]);
+            Assert.Equal(result, expectedResult, 2);
         }
     }
 }

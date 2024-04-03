@@ -4,29 +4,17 @@ namespace Calculator
 {
     public class DivisionOperationTest
     {
-        [Fact]
-        public void StandartDivisionOperationsTest()
+        [Theory]
+        [InlineData([1, 1, 1])]
+        [InlineData([-1, 4, -0.25])]
+        [InlineData([4, 2, 2])]
+        [InlineData([-2, -1, 2])]
+        [InlineData([0, 3, 0])]
+        public void StandartDivisionOperationsTest(double x, double y, double expectedResult)
         {
-            var testData = new double[][]
-            {
-                [1, 1],
-                [-1, 4],
-                [4, 2],
-                [-2, -1],
-                [0, 1]
-            };
-            List<double> result = new List<double>();
+            double result = Calculator.DivisionOperation(x, y);
 
-            foreach (var item in testData)
-            {
-                result.Add(Calculator.DivisionOperation(item[0], item[1]));
-            }
-
-            Assert.Equal(1, result[0]);
-            Assert.Equal(-0.25, result[1]);
-            Assert.Equal(2, result[2]);
-            Assert.Equal(2, result[3]);
-            Assert.Equal(0, result[4]);
+            Assert.Equal(result, expectedResult, 2);
         }
 
         [Fact]

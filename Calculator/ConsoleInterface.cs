@@ -8,13 +8,6 @@ namespace Calculator
 {
     public class ConsoleInterface
     {
-        public readonly TextWriter _writer;
-
-        public ConsoleInterface(TextWriter writer)
-        {
-            _writer = writer;
-        }
-
         public void Start()
         {
 
@@ -22,7 +15,7 @@ namespace Calculator
 
         public double GetDouble(string message)
         {
-            _writer.WriteLine($"Enter a double for {message}");
+            Console.WriteLine($"Enter a double for {message}");
             while (true)
             {
                 var value = Console.ReadLine();
@@ -31,13 +24,13 @@ namespace Calculator
                 {
                     return result;
                 }
-                else { _writer.WriteLine("Enter a double value"); }
+                else { Console.WriteLine("Enter a double value"); }
             }
         }
 
         public void WriteResult(double result)
         {
-            _writer.WriteLine($"Result of calculation is {result}");
+            Console.WriteLine($"Result of calculation is {result}");
         }
     }
 }

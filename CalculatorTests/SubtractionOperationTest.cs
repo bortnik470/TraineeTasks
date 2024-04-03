@@ -8,27 +8,16 @@ namespace Calculator
 {
     public class SubtractionOperationTest
     {
-        [Fact]
-        public void StandartSubtractionOperationsTest()
+        [Theory]
+        [InlineData([1, 1, 0])]
+        [InlineData([-1, 4, -5])]
+        [InlineData([4, 2, 2])]
+        [InlineData([4, 5, -1])]
+        public void StandartSubtractionOperationsTest(double x, double y, double expectedResult)
         {
-            var testData = new double[][]
-            {
-                [1, 1],
-                [-1, 4],
-                [4, 2],
-                [4, 5]
-            };
-            List<double> result = new List<double>();
+            double result = Calculator.SubtractionOperation(x, y);
 
-            foreach (var item in testData)
-            {
-                result.Add(Calculator.SubtractionOperation(item[0], item[1]));
-            }
-
-            Assert.Equal(0, result[0]);
-            Assert.Equal(-5, result[1]);
-            Assert.Equal(2, result[2]);
-            Assert.Equal(-1, result[3]);
+            Assert.Equal(expectedResult, result, 2);
         }
     }
 }

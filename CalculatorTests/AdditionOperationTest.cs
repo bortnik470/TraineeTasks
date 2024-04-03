@@ -2,26 +2,15 @@ namespace Calculator
 {
     public class AdditionOperationTest
     {
-        [Fact]
-        public void StandartAdditionOperationsTest()
+        [Theory]
+        [InlineData([1, 1, 2])]
+        [InlineData([-1, -1, -2])]
+        [InlineData([1.1111, 2.9999, 4.111])]
+        public void StandartAdditionOperationsTest(double x, double y, double expectedResult)
         {
-            var testData = new double[][]
-            {
-                [1, 1],
-                [-1, -1],
-                [1.1111,
-                2.9999]
-            };
-            List<double> result = new List<double>();
+            double result = Calculator.AdditionOperation(x, y);
 
-            foreach (var item in testData)
-            {
-                result.Add(Calculator.AdditionOperation(item[0], item[1]));
-            }
-
-            Assert.Equal(2, result[0]);
-            Assert.Equal(-2, result[1]);
-            Assert.Equal(4.111, result[2]);
+            Assert.Equal(expectedResult, result, 2);
         }
     }
 }
