@@ -4,32 +4,38 @@
     {
         public static double AdditionOperation(double x, double y)
         {
-            return default;
+            return x + y;
         }
 
         public static double SubtractionOperation(double x, double y)
         {
-            return default;
+            return x - y;
         }
 
         public static double DivisionOperation(double x, double y)
         {
-            return default;
+            if (y == 0)
+                throw new DivideByZeroException("Second argument shouldn`t be zero");
+            else
+                return x / y;
         }
 
         public static double MultiplyOperation(double x, double y)
         {
-            return default;
+            return x * y;
         }
 
         public static double PowOperation(double x, double y)
         {
-            return default;
+            return Math.Pow(x, y);
         }
 
         public static double SqrtOperation(double x)
         {
-            return default;
+            if (x < 0)
+                throw new InvalidDataException($"Number should be greater then zero: {x}");
+            else
+                return Math.Sqrt(x);
         }
     }
 }
