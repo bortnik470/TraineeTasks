@@ -1,5 +1,6 @@
-﻿using StudentsInfo.DataModels.Utility;
-using StudentsInfo.Enums;
+﻿using StudentsInfo.Enums;
+using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace StudentsInfo.DataModels.Disciplines
 {
@@ -10,7 +11,7 @@ namespace StudentsInfo.DataModels.Disciplines
         {
         }
 
-        public Discipline(DisciplineName disciplineName, Score score, DateModel startDate, DateModel endDate)
+        public Discipline(DisciplineName disciplineName, Score score, DateTime startDate, DateTime endDate)
         {
             this.disciplineName = disciplineName;
             this.score = score;
@@ -19,8 +20,8 @@ namespace StudentsInfo.DataModels.Disciplines
         }
 
         public DisciplineName disciplineName { get; set; }
-        public DateModel startDate { get; set; }
-        public DateModel endDate { get; set; }
+        public DateTime startDate { get; set; }
+        public DateTime endDate { get; set; }
         public Score score { get; set; }
     }
 }

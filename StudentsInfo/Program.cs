@@ -1,21 +1,19 @@
-﻿using StudentsInfo.DataModels.Disciplines;
-using StudentsInfo.DataModels.Student;
-using StudentsInfo.DataModels.Utility;
-using StudentsInfo.Enums;
+﻿using StudentsInfo;
 using StudentsInfo.Serializers;
 
-Student student = new Student("Dima", "Dasd", 98, "2B", new List<Discipline> {
-        new Discipline(StudentsInfo.Enums.DisciplineName.None, Score.None, new DateModel(1992, 2, 24), new DateModel(1993, 2, 23))
-});
-Student student3 = new Student("Vlad", "Asd", 324, "34", new List<Discipline> {
-        new Discipline(StudentsInfo.Enums.DisciplineName.None, Score.None, new DateModel(1992, 2, 24), new DateModel(1993, 2, 23))
-});
+Console.WriteLine("XML Serialization\n");
+XmlSerializator.Serialize(default, StudentCreator.CreateDefaultStudents().ToArray());
 
-Console.WriteLine(student.disciplines[0].startDate);
-Console.WriteLine(student.disciplines[0].endDate);
+var xmlStudents = XmlSerializator.DeserializeStudents("data.xml");
 
-XmlSerializator.Serialize(student, student3);
+foreach (var student in xmlStudents)
+    Console.WriteLine(student);
 
-var student1 = XmlSerializator.DeserializeStudents("data.xml");
 
-Console.WriteLine(student);
+Console.WriteLine("JSON Serialization\n");
+JSONSerializator.SerializeStudents(default, StudentCreator.CreateRandomStudents(6).ToArray());
+
+var jsonStudents = JSONSerializator.DeserializeStudents(default);
+
+foreach (var student in jsonStudents)
+    Console.WriteLine(student);

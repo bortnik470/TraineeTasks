@@ -8,6 +8,12 @@ namespace StudentsInfo.Enums
 {
     public enum Score
     {
-        None
+        None,
+        A,
+        B,
+        C,
+        D,
+        E,
+        Fx
     }
 }

@@ -2,8 +2,8 @@
 {
     public  interface IPerson
     {
-        public string firsName { get; set; }
+        public string firstName { get; set; }
         public string lastName { get; set; }
-        public int phoneNumber { get; set; }
+        public string phoneNumber { get; set; }
     }
 }

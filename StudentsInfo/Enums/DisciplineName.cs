@@ -2,6 +2,11 @@
 {
     public enum DisciplineName
     {
-        None
+        None,
+        Math,
+        Art,
+        English,
+        History,
+        PE
     }
 }
