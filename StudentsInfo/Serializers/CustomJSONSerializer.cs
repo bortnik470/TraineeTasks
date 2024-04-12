@@ -3,7 +3,7 @@ using System.Text.Json;
 
 namespace StudentsInfo.Serializers
 {
-    public static class JSONSerializator
+    public static class CustomJSONSerializer
     {
         static JsonSerializerOptions options = new JsonSerializerOptions
         {

@@ -3,7 +3,7 @@ using System.Xml.Serialization;
 
 namespace StudentsInfo.Serializers
 {
-    public static class XmlSerializator
+    public static class CustomXmlSerializer
     {
         public static void Serialize(string pathToFile, params Student[] students)
         {
