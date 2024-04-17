@@ -1,22 +1,21 @@
-﻿using StudentsInfo.AbstractClases;
-using StudentsInfo.DataModels.Disciplines;
+﻿using StudentsInfo.DataModels;
 using StudentsInfo.Enums;
 using System.Text;
 
 namespace StudentsInfo
 {
     [Serializable]
-    public class Student : BaseStudent
+    public class Student : StudentModel
     {
         public Student() { }
-        public Student(string firstName, string lastName, string phoneNumber, string groupName, List<Discipline> disciplines) :
+        public Student(string firstName, string lastName, string phoneNumber, string groupName, List<DisciplineModel> disciplines) :
                   base(firstName, lastName, phoneNumber, groupName, disciplines)
         {
         }
 
         public void SetScoreForDiscipline(DisciplineName disciplineName, Score score)
         {
-            Discipline discipline = disciplines.Find(x => disciplineName.Equals(x.disciplineName));
+            DisciplineModel discipline = disciplines.Find(x => disciplineName.Equals(x.disciplineName));
             if (discipline == null)
             {
                 Console.WriteLine($"{firstName} {lastName} doen`t have {disciplineName} discipline");

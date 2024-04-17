@@ -1,4 +1,4 @@
-﻿using StudentsInfo.DataModels.Disciplines;
+﻿using StudentsInfo.DataModels;
 using StudentsInfo.Enums;
 using System.ComponentModel.DataAnnotations;
 
@@ -10,46 +10,46 @@ namespace StudentsInfo
         {
             return new List<Student>()
             {
-                new Student("Vlad", "Smith", "3609432642", "2B", new List<Discipline> {
-                    new Discipline(DisciplineName.PE, Score.A,
+                new Student("Vlad", "Smith", "3609432642", "2B", new List<DisciplineModel> {
+                    new DisciplineModel(DisciplineName.PE, Score.A,
                         new DateTime(1992, 2, 24), new DateTime(1993, 2, 23)),
-                    new Discipline(DisciplineName.Art, Score.C,
+                    new DisciplineModel(DisciplineName.Art, Score.C,
                         new DateTime(1992, 2, 22), new DateTime(1993, 2, 23))
                     }),
 
-                new Student("David", "Young", "942345628", "2A", new List<Discipline> {
-                    new Discipline(DisciplineName.Math, Score.E,
+                new Student("David", "Young", "942345628", "2A", new List<DisciplineModel> {
+                    new DisciplineModel(DisciplineName.Math, Score.E,
                         new DateTime(2002, 2, 11), new DateTime(2002, 6, 20)),
-                    new Discipline(DisciplineName.English, Score.C,
+                    new DisciplineModel(DisciplineName.English, Score.C,
                         new DateTime(2001, 9, 15), new DateTime(2002, 1, 10)),
-                    new Discipline(DisciplineName.Art, Score.D,
+                    new DisciplineModel(DisciplineName.Art, Score.D,
                         new DateTime(2001, 9, 15), new DateTime(2002, 1, 10))
                     }),
 
-                new Student("Andrew", "Gorestriker", "438912345", "3A", new List<Discipline> {
-                    new Discipline(DisciplineName.History, Score.None,
+                new Student("Andrew", "Gorestriker", "438912345", "3A", new List<DisciplineModel> {
+                    new DisciplineModel(DisciplineName.History, Score.None,
                         new DateTime(2003, 2, 17), new DateTime(2003, 6, 18)),
-                    new Discipline(DisciplineName.English, Score.D,
+                    new DisciplineModel(DisciplineName.English, Score.D,
                         new DateTime(2002, 9, 1), new DateTime(2003, 1, 11))
                     }),
 
-                new Student("Ramiro", "Amos", "732942112", "3B", new List<Discipline> {
-                    new Discipline(DisciplineName.Art, Score.None,
+                new Student("Ramiro", "Amos", "732942112", "3B", new List<DisciplineModel> {
+                    new DisciplineModel(DisciplineName.Art, Score.None,
                         new DateTime(2003, 2, 15), new DateTime(2003, 6, 10)),
-                    new Discipline(DisciplineName.English, Score.D,
+                    new DisciplineModel(DisciplineName.English, Score.D,
                         new DateTime(2002, 9, 1), new DateTime(2003, 1, 19)),
-                    new Discipline(DisciplineName.PE, Score.A,
+                    new DisciplineModel(DisciplineName.PE, Score.A,
                         new DateTime(2002, 9, 4), new DateTime(2003, 1, 12))
                     }),
 
-                new Student("Walter", "Bozzelli", "654283745", "6C", new List<Discipline> {
-                    new Discipline(DisciplineName.Art, Score.Fx,
+                new Student("Walter", "Bozzelli", "654283745", "6C", new List<DisciplineModel> {
+                    new DisciplineModel(DisciplineName.Art, Score.Fx,
                         new DateTime(2000, 2, 21), new DateTime(2001, 6, 18)),
-                    new Discipline(DisciplineName.Art, Score.C,
+                    new DisciplineModel(DisciplineName.Art, Score.C,
                         new DateTime(2001, 9, 24), new DateTime(2002, 1, 4)),
-                    new Discipline(DisciplineName.English, Score.D,
+                    new DisciplineModel(DisciplineName.English, Score.D,
                         new DateTime(2000, 9, 17), new DateTime(2001, 1, 24)),
-                    new Discipline(DisciplineName.History, Score.B,
+                    new DisciplineModel(DisciplineName.History, Score.B,
                         new DateTime(2000, 9, 15), new DateTime(2001, 1, 15))
                     })
             };
@@ -114,32 +114,40 @@ namespace StudentsInfo
             Random r = new Random();
             for (int i = 0; i < range; i++)
             {
-                int[] randomNumber = new int[] {
+                int[] randomNumbers = [
+                r.Next(9),
                 r.Next(9 - i),
                 r.Next(9 - i),
-                r.Next(9 - i),
-                r.Next(9 - i)
-                };
+                r.Next(9)
+                ];
 
-                var disciplinesList = new List<Discipline>();
+                var disciplinesList = new List<DisciplineModel>();
                 int disciplineCount = r.Next(1, 10);
                 for (int j = 0; j < disciplineCount; j++)
                 {
-                    var startDate = new DateTime(r.Next(1990, 2024), r.Next(1, 13), r.Next(1, 28));
-                    var endDate = new DateTime(startDate.AddYears(r.Next(1, 5)).Year, startDate.AddMonths(r.Next(6, 12)).Month, startDate.AddDays(r.Next(15, 30)).Day);
+                    var startDate = new DateTime(r.Next(1990, 2024), 
+                                                 r.Next(1, 13), 
+                                                 r.Next(1, 28));
 
-                    disciplinesList.Add(new Discipline(
+                    var endDate = new DateTime(startDate.AddYears(r.Next(1, 5)).Year, 
+                                               startDate.AddMonths(r.Next(6, 12)).Month, 
+                                               startDate.AddDays(r.Next(15, 30)).Day);
+
+                    disciplinesList.Add(new DisciplineModel(
                         (DisciplineName)Enum.GetValues(typeof(DisciplineName)).GetValue(r.Next(1, 6)),
                         (Score)Enum.GetValues(typeof(Score)).GetValue(r.Next(1, 7)),
                         startDate,
                         endDate));
                 }
 
-                result.Add(new Student(firstNames[randomNumber[0]], lastNames[randomNumber[1]],
-                    phoneNumbers[randomNumber[2]], groupNumbers[randomNumber[3]], disciplinesList));
+                result.Add(new Student(firstNames[randomNumbers[0]], 
+                                       lastNames[randomNumbers[1]],
+                                       phoneNumbers[randomNumbers[2]], 
+                                       groupNumbers[randomNumbers[3]], 
+                                       disciplinesList));
 
-                lastNames.Remove(lastNames[randomNumber[1]]);
-                phoneNumbers.Remove(phoneNumbers[randomNumber[2]]);
+                lastNames.Remove(lastNames[randomNumbers[1]]);
+                phoneNumbers.Remove(phoneNumbers[randomNumbers[2]]);
             }
 
             return result;
