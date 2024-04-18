@@ -1,5 +1,4 @@
 ﻿using StudentsInfo.Enums;
-using StudentsInfo.Interfaces;
 
 namespace StudentsInfo.DataModels
 {
@@ -25,7 +24,7 @@ namespace StudentsInfo.DataModels
         public DateTime endDate { get; set; }
         public Score score { get; set; }
 
-        public string tableName {  get; private set; }
+        public string tableName { get; private set; }
 
         public void FillDbModel(object[] values)
         {

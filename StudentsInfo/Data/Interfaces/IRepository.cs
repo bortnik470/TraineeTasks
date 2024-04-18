@@ -1,4 +1,6 @@
-﻿namespace StudentsInfo.Interfaces
+﻿using StudentsInfo.ExtraModules.DateTypes;
+
+namespace StudentsInfo.Interfaces
 {
     public interface IRepository
     {
@@ -6,9 +8,11 @@
 
         public List<object> GetDataFromTable(string tableName);
 
-        public void DeleteData(string tableName, object key, string prKeyName);
+        public List<object> GetSomeDateFromTable(string tableName, List<KeyValue> valuesForFinder);
 
-        public void UpdateData(string tableName, object key, string prKeyName, string columnName, object value);
+        public void DeleteData(string tableName, List<KeyValue> valuesForFinder);
+
+        public void UpdateData(string tableName, List<KeyValue> valuesForFinder, List<KeyValue> updateData);
 
         public void InsertData(string tableName, params object[] data);
     }

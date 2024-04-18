@@ -1,5 +1,4 @@
-﻿using StudentsInfo.DataModels;
-using StudentsInfo.dbAccessors.SqlAccessor;
+﻿using StudentsInfo.dbAccessors.SqlAccessor;
 using System.Configuration;
 
 SqlAccessor sqlAccessor = new SqlAccessor(ConfigurationManager.ConnectionStrings["SqlConnectionString"].ConnectionString);

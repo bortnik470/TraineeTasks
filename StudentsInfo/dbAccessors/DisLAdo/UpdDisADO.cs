@@ -43,7 +43,7 @@ namespace StudentsInfo
         public int GetDisciplineId(int studentId, DisciplineModel discipline)
         {
             var id = dataSet.Tables["Discipline"].AsEnumerable().
-                Where(x => x["studentID"].Equals(studentId) && 
+                Where(x => x["studentID"].Equals(studentId) &&
                 x["dName"].Equals(discipline.disciplineName.ToString()) &&
                 x["score"].Equals(discipline.score.ToString())).
                 Select(x => x["id"]).

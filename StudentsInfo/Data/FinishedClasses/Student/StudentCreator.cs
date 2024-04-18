@@ -125,12 +125,12 @@ namespace StudentsInfo
                 int disciplineCount = r.Next(1, 10);
                 for (int j = 0; j < disciplineCount; j++)
                 {
-                    var startDate = new DateTime(r.Next(1990, 2024), 
-                                                 r.Next(1, 13), 
+                    var startDate = new DateTime(r.Next(1990, 2024),
+                                                 r.Next(1, 13),
                                                  r.Next(1, 28));
 
-                    var endDate = new DateTime(startDate.AddYears(r.Next(1, 5)).Year, 
-                                               startDate.AddMonths(r.Next(6, 12)).Month, 
+                    var endDate = new DateTime(startDate.AddYears(r.Next(1, 5)).Year,
+                                               startDate.AddMonths(r.Next(6, 12)).Month,
                                                startDate.AddDays(r.Next(15, 30)).Day);
 
                     disciplinesList.Add(new DisciplineModel(
@@ -140,10 +140,10 @@ namespace StudentsInfo
                         endDate));
                 }
 
-                result.Add(new Student(firstNames[randomNumbers[0]], 
+                result.Add(new Student(firstNames[randomNumbers[0]],
                                        lastNames[randomNumbers[1]],
-                                       phoneNumbers[randomNumbers[2]], 
-                                       groupNumbers[randomNumbers[3]], 
+                                       phoneNumbers[randomNumbers[2]],
+                                       groupNumbers[randomNumbers[3]],
                                        disciplinesList));
 
                 lastNames.Remove(lastNames[randomNumbers[1]]);
