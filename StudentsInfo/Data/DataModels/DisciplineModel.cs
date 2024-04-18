@@ -26,5 +26,10 @@ namespace StudentsInfo.DataModels
         public Score score { get; set; }
 
         public string tableName {  get; private set; }
+
+        public void FillDbModel(object[] values)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

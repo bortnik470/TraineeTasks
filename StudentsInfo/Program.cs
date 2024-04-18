@@ -1,18 +1,10 @@
-﻿using StudentsInfo;
+﻿using StudentsInfo.DataModels;
+using StudentsInfo.dbAccessors.SqlAccessor;
+using System.Configuration;
 
-DisADO adaptiveADO = new DisADO("test");
+SqlAccessor sqlAccessor = new SqlAccessor(ConfigurationManager.ConnectionStrings["SqlConnectionString"].ConnectionString);
 
-adaptiveADO.CreateDisciplineTable();
-adaptiveADO.CreateStudentTable();
-
-adaptiveADO.AddNewStudentRow(StudentCreator.CreateDefaultStudents()[1]);
-adaptiveADO.AddNewStudentRow(StudentCreator.CreateDefaultStudents()[2]);
-
-adaptiveADO.ShowAllStudent();
-
-adaptiveADO.DeleteStudent(StudentCreator.CreateDefaultStudents()[1]);
-
-adaptiveADO.ShowAllStudent();
+sqlAccessor.UpdateData("Students", 1, "id", "groupName", "'24B'");
 
 //Console.WriteLine("XML Serialization\n");
 //CustomXmlSerializer.Serialize(default, StudentCreator.CreateDefaultStudents().ToArray());
