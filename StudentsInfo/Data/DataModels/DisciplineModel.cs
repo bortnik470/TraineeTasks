@@ -3,7 +3,7 @@
 namespace StudentsInfo.DataModels
 {
     [Serializable]
-    public class DisciplineModel : IDbModel
+    public class DisciplineModel
     {
         public DisciplineModel()
         {

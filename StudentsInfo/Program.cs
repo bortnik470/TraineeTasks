@@ -1,9 +1,17 @@
-﻿using StudentsInfo.dbAccessors.SqlAccessor;
+﻿using StudentsInfo;
+using StudentsInfo.Data.FinishedClasses.Student;
+using StudentsInfo.dbAccessors.SqlAccessor;
 using System.Configuration;
 
-SqlAccessor sqlAccessor = new SqlAccessor(ConfigurationManager.ConnectionStrings["SqlConnectionString"].ConnectionString);
+string connectionString = ConfigurationManager.ConnectionStrings["SqlConnectionString"].ConnectionString;
 
-sqlAccessor.UpdateData("Students", 1, "id", "groupName", "'24B'");
+StudentDbAccessor studentDbAccessor = new StudentDbAccessor(new SqlAccessor(connectionString), "Students", "Disciplines");
+
+studentDbAccessor.DeleteStudentById(1);
+
+var i = new char[] { 'A', 'B' };
+
+Console.WriteLine(i);
 
 //Console.WriteLine("XML Serialization\n");
 //CustomXmlSerializer.Serialize(default, StudentCreator.CreateDefaultStudents().ToArray());

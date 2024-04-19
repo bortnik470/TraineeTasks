@@ -1,4 +1,4 @@
-﻿using StudentsInfo.ExtraModules.DateTypes;
+﻿using StudentsInfo.Data.DataModels;
 using StudentsInfo.Interfaces;
 using System.Data.SqlClient;
 using System.Text;
@@ -14,11 +14,11 @@ namespace StudentsInfo.dbAccessors.SqlAccessor
             this.connectionString = connectionString;
         }
 
-        public List<object> GetDataFromTable(string tableName)
+        public List<object[]> GetDataFromTable(string tableName)
         {
             var sqlCom = $"Select * From {tableName}";
 
-            List<object> result = new List<object>();
+            List<object[]> result = new List<object[]>();
 
             using (SqlConnection cn = new SqlConnection(connectionString))
             {
@@ -32,7 +32,7 @@ namespace StudentsInfo.dbAccessors.SqlAccessor
                     while (reader.Read())
                     {
                         reader.GetValues(objects);
-                        result.Add(objects.Clone());
+                        result.Add((object[])objects.Clone());
                     }
                 }
             }
@@ -40,17 +40,19 @@ namespace StudentsInfo.dbAccessors.SqlAccessor
             return result;
         }
 
-        public void InsertData(string tableName, params object[] data)
+        public void InsertData(string tableName, List<KeyValueType> data)
         {
             StringBuilder sqlCom = new StringBuilder();
             sqlCom.Append($"Insert into {tableName} values (");
-            for (int i = 0; i < data.Length - 1; i++)
+            for (int i = 0; i < data.Count - 1; i++)
             {
-                sqlCom.Append($"{data[i]}, ");
+                if (data[i].Type.Equals("number"))
+                    sqlCom.Append($"{data[i].Value}, ");
+                else sqlCom.Append($"'{data[i].Value}', ");
             }
-            sqlCom.Append($"{data[data.Length - 1]});");
-
-            Console.WriteLine(sqlCom.ToString());
+            if (data[data.Count - 1].Type.Equals("number"))
+                sqlCom.Append($"{data[data.Count - 1].Value})");
+            else sqlCom.Append($"'{data[data.Count - 1].Value}');");
 
             using (SqlConnection cn = new SqlConnection(connectionString))
             {
@@ -62,37 +64,16 @@ namespace StudentsInfo.dbAccessors.SqlAccessor
             }
         }
 
-        public void UpdateData(string tableName, object key, string prKeyName, string columnName, object value)
-        {
-            var sqlCom = $"Update {tableName} set {columnName} = {value} " +
-                         $"Where {prKeyName} = {key};";
-
-            using (SqlConnection cn = new SqlConnection(connectionString))
-            {
-                SqlCommand cmd = new SqlCommand(sqlCom, cn);
-
-                cn.Open();
-
-                cmd.ExecuteNonQuery();
-            }
-        }
-
-        public List<object> GetSomeDateFromTable(string tableName, List<KeyValue> valuesForFinder)
+        public List<object[]> GetSomeDateFromTable(string tableName, List<KeyValueType> valuesForFinder)
         {
             StringBuilder sqlCom = new StringBuilder();
             sqlCom.Append($"Select * From {tableName} Where ");
-            if (valuesForFinder.Count > 1)
-            {
-                for (int i = 0; i < valuesForFinder.Count - 1; i++)
-                {
-                    sqlCom.Append($"{valuesForFinder[i].keyName} = {valuesForFinder[i].keyValue} And ");
-                }
-            }
 
-            sqlCom.Append($"{valuesForFinder[valuesForFinder.Count - 1].keyName}" +
-                          $" = {valuesForFinder[valuesForFinder.Count - 1].keyValue}");
+            ImplementValue(sqlCom, valuesForFinder, ['a', 'n', 'd']);
 
-            List<object> result = new List<object>();
+            sqlCom.Append(';');
+
+            List<object[]> result = new List<object[]>();
 
             using (SqlConnection cn = new SqlConnection(connectionString))
             {
@@ -106,7 +87,7 @@ namespace StudentsInfo.dbAccessors.SqlAccessor
                     while (reader.Read())
                     {
                         reader.GetValues(objects);
-                        result.Add(objects.Clone());
+                        result.Add((object[])objects.Clone());
                     }
                 }
             }
@@ -114,20 +95,13 @@ namespace StudentsInfo.dbAccessors.SqlAccessor
             return result;
         }
 
-        public void DeleteData(string tableName, List<KeyValue> valuesForFinder)
+        public void DeleteData(string tableName, List<KeyValueType> valuesForFinder)
         {
             StringBuilder sqlCom = new StringBuilder();
             sqlCom.Append($"Delete From {tableName} Where ");
-            if (valuesForFinder.Count > 1)
-            {
-                for (int i = 0; i < valuesForFinder.Count - 1; i++)
-                {
-                    sqlCom.Append($"{valuesForFinder[i].keyName} = {valuesForFinder[i].keyValue} And ");
-                }
-            }
+            ImplementValue(sqlCom, valuesForFinder, ['a', 'n', 'd']);
 
-            sqlCom.Append($"{valuesForFinder[valuesForFinder.Count - 1].keyName}" +
-                          $" = {valuesForFinder[valuesForFinder.Count - 1].keyValue}");
+            sqlCom.Append(';');
 
             using (SqlConnection cn = new SqlConnection(connectionString))
             {
@@ -139,31 +113,16 @@ namespace StudentsInfo.dbAccessors.SqlAccessor
             }
         }
 
-        public void UpdateData(string tableName, List<KeyValue> valuesForFinder, List<KeyValue> updateData)
+        public void UpdateData(string tableName, List<KeyValueType> valuesForFinder, List<KeyValueType> updateData)
         {
             StringBuilder sqlCom = new StringBuilder();
             sqlCom.Append($"Update {tableName} Set ");
-            if (updateData.Count > 1)
-            {
-                for (int i = 0; i < valuesForFinder.Count - 1; i++)
-                {
-                    sqlCom.Append($"{valuesForFinder[i].keyName} = {valuesForFinder[i].keyValue} And ");
-                }
-            }
+            ImplementValue(sqlCom, valuesForFinder, [',']);
 
-            sqlCom.Append($"{valuesForFinder[valuesForFinder.Count - 1].keyName}" +
-                          $" = {valuesForFinder[valuesForFinder.Count - 1].keyValue} where ");
+            sqlCom.Append(" where ");
+            ImplementValue(sqlCom, valuesForFinder, ['a', 'n', 'd']);
 
-            if (valuesForFinder.Count > 1)
-            {
-                for (int i = 0; i < valuesForFinder.Count - 1; i++)
-                {
-                    sqlCom.Append($"{valuesForFinder[i].keyName} = {valuesForFinder[i].keyValue} And ");
-                }
-            }
-
-            sqlCom.Append($"{valuesForFinder[valuesForFinder.Count - 1].keyName}" +
-                          $" = {valuesForFinder[valuesForFinder.Count - 1].keyValue}");
+            sqlCom.Append(';');
 
             using (SqlConnection cn = new SqlConnection(connectionString))
             {
@@ -172,6 +131,25 @@ namespace StudentsInfo.dbAccessors.SqlAccessor
                 cn.Open();
 
                 cmd.ExecuteNonQuery();
+            }
+        }
+
+        private void ImplementValue(StringBuilder sb, List<KeyValueType> data, char[] symbol)
+        {
+            for (int i = 0; i < data.Count - 1; i++)
+            {
+                if (data[i].Type.Equals("number"))
+                    sb.Append($"{data[i].Key} = {data[i].Value} {symbol.ToString()} ");
+                else sb.Append($"{data[i].Key} = '{data[i].Value}' {symbol.ToString()} ");
+            }
+
+            if (data[data.Count - 1].Type.Equals("number"))
+                sb.Append($"{data[data.Count - 1].Key} = {data[data.Count - 1].Value}");
+            else sb.Append($"{data[data.Count - 1].Key} = '{data[data.Count - 1].Value}'");
+
+            if (data.Count > 1)
+            {
+                sb.Append(')');
             }
         }
     }
