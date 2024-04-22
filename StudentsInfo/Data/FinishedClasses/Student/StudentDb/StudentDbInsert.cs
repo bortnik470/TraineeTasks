@@ -1,16 +1,11 @@
 ﻿using StudentsInfo.Data.DataModels;
 using StudentsInfo.DataModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace StudentsInfo.Data.FinishedClasses.Student
+namespace StudentsInfo.Data.FinishedClasses.StudentClass
 {
     public partial class StudentDbAccessor
     {
-        public void AddStudentToDb(StudentModel student)
+        public void AddStudentToDb(Student student)
         {
             dbRepository.InsertData(stTableName, new List<KeyValueType>
             {
@@ -37,7 +32,7 @@ namespace StudentsInfo.Data.FinishedClasses.Student
             });
         }
 
-        public void AddDiscipline(DisciplineModel discipline, StudentModel student)
+        public void AddDiscipline(DisciplineModel discipline, Student student)
         {
             int studentId = GetStudentId(student);
             AddDiscipline(discipline, studentId);
@@ -49,7 +44,7 @@ namespace StudentsInfo.Data.FinishedClasses.Student
                 AddDiscipline(discipline, studentId);
         }
 
-        public void AddDisciplines(IEnumerable<DisciplineModel> disciplines, StudentModel student)
+        public void AddDisciplines(IEnumerable<DisciplineModel> disciplines, Student student)
         {
             int studentId = GetStudentId(student);
             AddDisciplines(disciplines, studentId);

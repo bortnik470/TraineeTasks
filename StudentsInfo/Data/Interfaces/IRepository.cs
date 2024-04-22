@@ -1,4 +1,5 @@
 ﻿using StudentsInfo.Data.DataModels;
+using StudentsInfo.DataModels;
 
 namespace StudentsInfo.Interfaces
 {
@@ -6,16 +7,25 @@ namespace StudentsInfo.Interfaces
     {
         string connectionString { get; }
 
-        public List<object[]> GetDataFromTable(string tableName);
+        public List<Student> GetStudentDataFromTable(string tableName, string discTableName);
 
-        public List<object[]> GetSomeDateFromTable(string tableName, 
+        public List<Student> GetSomeStudentDataFromTable(string tableName, string discTableName,
             List<KeyValueType> valuesForFinder);
 
-        public void DeleteData(string tableName, 
+        public int GetStudentId(string tableName, Student student);
+
+        public List<DisciplineModel> GetDisciplinesBySomeDataFromTable(string tableName,
             List<KeyValueType> valuesForFinder);
 
-        public void UpdateData(string tableName, 
-            List<KeyValueType> valuesForFinder, 
+        public List<DisciplineModel> GetDisciplinesDataFromTable(string tableName);
+
+        public int GetDisciplineId(string tableName, int studentId, DisciplineModel discipline);
+
+        public void DeleteData(string tableName,
+            List<KeyValueType> valuesForFinder);
+
+        public void UpdateData(string tableName,
+            List<KeyValueType> valuesForFinder,
             List<KeyValueType> updateData);
 
         public void InsertData(string tableName, List<KeyValueType> data);

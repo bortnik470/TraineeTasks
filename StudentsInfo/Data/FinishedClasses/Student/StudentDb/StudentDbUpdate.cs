@@ -1,12 +1,7 @@
 ﻿using StudentsInfo.Data.DataModels;
 using StudentsInfo.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace StudentsInfo.Data.FinishedClasses.Student
+namespace StudentsInfo.Data.FinishedClasses.StudentClass
 {
     public partial class StudentDbAccessor
     {
@@ -24,7 +19,7 @@ namespace StudentsInfo.Data.FinishedClasses.Student
         {
             var whereKVT = new List<KeyValueType>
             {
-                new KeyValueType("id", id, "number")
+                new KeyValueType("disciplineId", id, "number")
             };
 
             dbRepository.UpdateData(discTableName, whereKVT, setKVT);

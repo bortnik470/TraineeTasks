@@ -1,16 +1,10 @@
 ﻿using StudentsInfo.Data.DataModels;
-using StudentsInfo.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace StudentsInfo.Data.FinishedClasses.Student
+namespace StudentsInfo.Data.FinishedClasses.StudentClass
 {
     public partial class StudentDbAccessor
     {
-        public void DeleteStudentById(int id)
+        public void DeleteStudent(int id)
         {
             var KVT = new List<KeyValueType>
             {
