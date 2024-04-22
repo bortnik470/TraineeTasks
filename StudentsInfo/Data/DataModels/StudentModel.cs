@@ -23,10 +23,5 @@ namespace StudentsInfo.DataModels
         public string groupName { get; set; }
         public List<DisciplineModel> disciplines { get; set; }
         public string tableName { get; private set; }
-
-        public void FillDbModel(object[] values)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -69,7 +69,7 @@ namespace StudentsInfo.dbAccessors.SqlAccessor
             StringBuilder sqlCom = new StringBuilder();
             sqlCom.Append($"Select * From {tableName} Where ");
 
-            ImplementValue(sqlCom, valuesForFinder, ['a', 'n', 'd']);
+            ImplementValue(sqlCom, valuesForFinder, "and");
 
             sqlCom.Append(';');
 
@@ -99,7 +99,7 @@ namespace StudentsInfo.dbAccessors.SqlAccessor
         {
             StringBuilder sqlCom = new StringBuilder();
             sqlCom.Append($"Delete From {tableName} Where ");
-            ImplementValue(sqlCom, valuesForFinder, ['a', 'n', 'd']);
+            ImplementValue(sqlCom, valuesForFinder, "and");
 
             sqlCom.Append(';');
 
@@ -117,10 +117,10 @@ namespace StudentsInfo.dbAccessors.SqlAccessor
         {
             StringBuilder sqlCom = new StringBuilder();
             sqlCom.Append($"Update {tableName} Set ");
-            ImplementValue(sqlCom, valuesForFinder, [',']);
+            ImplementValue(sqlCom, valuesForFinder, ",");
 
             sqlCom.Append(" where ");
-            ImplementValue(sqlCom, valuesForFinder, ['a', 'n', 'd']);
+            ImplementValue(sqlCom, valuesForFinder, "and");
 
             sqlCom.Append(';');
 
@@ -134,13 +134,13 @@ namespace StudentsInfo.dbAccessors.SqlAccessor
             }
         }
 
-        private void ImplementValue(StringBuilder sb, List<KeyValueType> data, char[] symbol)
+        private void ImplementValue(StringBuilder sb, List<KeyValueType> data, string symbol)
         {
             for (int i = 0; i < data.Count - 1; i++)
             {
                 if (data[i].Type.Equals("number"))
-                    sb.Append($"{data[i].Key} = {data[i].Value} {symbol.ToString()} ");
-                else sb.Append($"{data[i].Key} = '{data[i].Value}' {symbol.ToString()} ");
+                    sb.Append($"{data[i].Key} = {data[i].Value} {symbol} ");
+                else sb.Append($"{data[i].Key} = '{data[i].Value}' {symbol} ");
             }
 
             if (data[data.Count - 1].Type.Equals("number"))
