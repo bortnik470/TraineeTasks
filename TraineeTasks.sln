@@ -20,7 +20,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CalculatorTests", "Calculat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calculator", "Calculator\Calculator.csproj", "{390EAB9F-B956-4B52-A0BD-C718A1A1F339}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentsInfo", "StudentsInfo\StudentsInfo.csproj", "{3D03C6FC-F3B4-4C85-A9A0-2DE9D199883C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentsInfo", "StudentsInfo\StudentsInfo.csproj", "{3D03C6FC-F3B4-4C85-A9A0-2DE9D199883C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ADO_Net_demo", "ADO_Net_demo\ADO_Net_demo.csproj", "{CF60E79D-E631-422E-8F0B-84BCEEDFD517}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -52,6 +54,10 @@ Global
 		{3D03C6FC-F3B4-4C85-A9A0-2DE9D199883C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D03C6FC-F3B4-4C85-A9A0-2DE9D199883C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D03C6FC-F3B4-4C85-A9A0-2DE9D199883C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF60E79D-E631-422E-8F0B-84BCEEDFD517}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF60E79D-E631-422E-8F0B-84BCEEDFD517}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF60E79D-E631-422E-8F0B-84BCEEDFD517}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF60E79D-E631-422E-8F0B-84BCEEDFD517}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

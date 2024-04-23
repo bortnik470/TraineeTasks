@@ -13,8 +13,6 @@ namespace StudentsInfo.DataModels
             this.phoneNumber = phoneNumber;
             this.groupName = groupName;
             this.disciplines = disciplines;
-
-            tableName = "Student";
         }
 
         public string firstName { get; set; }
@@ -22,6 +20,5 @@ namespace StudentsInfo.DataModels
         public string phoneNumber { get; set; }
         public string groupName { get; set; }
         public List<DisciplineModel> disciplines { get; set; }
-        public string tableName { get; private set; }
     }
 }

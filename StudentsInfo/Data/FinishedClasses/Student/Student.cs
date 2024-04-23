@@ -33,8 +33,8 @@ namespace StudentsInfo
             foreach (var discipline in disciplines)
             {
                 sb.AppendLine($"\tDiscipline name: {discipline.disciplineName}");
-                sb.AppendLine($"\tDiscipline period: from {discipline.startDate} " +
-                    $"to {discipline.endDate}");
+                sb.AppendLine($"\tDiscipline period: from {DateOnly.FromDateTime(discipline.startDate)} " +
+                    $"to {DateOnly.FromDateTime(discipline.endDate)}");
                 if (!discipline.score.Equals(Score.None))
                 {
                     sb.AppendLine($"\tStudent`s score is {discipline.score.ToString()}\n");
