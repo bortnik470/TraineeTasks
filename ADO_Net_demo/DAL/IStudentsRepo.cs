@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ADO_Net_demo.DAL
+﻿namespace ADO_Net_demo.DAL
 {
     internal interface IStudentsRepo
     {

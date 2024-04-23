@@ -1,5 +1,6 @@
 ﻿using ADO_Net_demo;
 using ADO_Net_demo.DAL;
+using System.Configuration;
 
 DataAccessConnected dataAccessConnected = new DataAccessConnected();
 
@@ -10,6 +11,9 @@ var st = new Student(27, "David", "Young", "32142152", "2A", new List<Course> {
                         new DateOnly(2001, 9, 15), new DateOnly(2002, 1, 10))
                     });
 
-dataAccessConnected.Update(st);
+DataAccessDisconnected dataAccessDisconnected = 
+    new DataAccessDisconnected(ConfigurationManager.ConnectionStrings["SqlConnectionString"].ConnectionString);
 
-Console.WriteLine(st);
+dataAccessDisconnected.GetById(3);
+
+Console.WriteLine(dataAccessDisconnected.GetById(3));
