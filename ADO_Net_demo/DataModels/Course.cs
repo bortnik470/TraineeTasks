@@ -3,7 +3,7 @@
     public class Course
     {
         public int Id { get; set; }
-        public int studentId { get; set; }
+        public int StudentId { get; set; }
         public string Name { get; set; }
         public string Score { get; set; }
         public DateOnly StartDate { get; set; }
@@ -23,6 +23,6 @@
 
         public Course(int id, int studentId, string name, string score, DateOnly startDate, DateOnly endDate) :
             this(id, name, score, startDate, endDate)
-        { this.studentId = studentId; }
+        { this.StudentId = studentId; }
     }
 }

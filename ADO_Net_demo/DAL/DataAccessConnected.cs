@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -17,11 +18,13 @@ namespace ADO_Net_demo.DAL
 
         public void Delete(int id)
         {
-            string sqlCom = $"Delete From {coursesTableName} Where studentId = {id}";
+            string sqlCom = $"Delete From {coursesTableName} Where studentId = @studentId";
 
             using (SqlConnection cn = new SqlConnection(connString))
             {
                 SqlCommand cmd = new SqlCommand(sqlCom, cn);
+
+                cmd.Parameters.AddWithValue("@studentId", id);
 
                 cn.Open();
 
@@ -32,7 +35,7 @@ namespace ADO_Net_demo.DAL
 
                     cmd.ExecuteNonQuery();
 
-                    cmd.CommandText = $"Delete From {stdTableName} Where studentId = {id}";
+                    cmd.CommandText = $"Delete From {stdTableName} Where studentId = @studentId";
 
                     cmd.ExecuteNonQuery();
 
@@ -52,8 +55,7 @@ namespace ADO_Net_demo.DAL
 
         public Student GetById(int id)
         {
-            string sqlCom = $"select * from {coursesTableName} " +
-                $"where studentId = {id}";
+            string sqlCom = $"select * from {coursesTableName} where studentId = @studentId";
 
             Student student = default;
 
@@ -64,6 +66,8 @@ namespace ADO_Net_demo.DAL
                 SqlCommand cmd = new SqlCommand(sqlCom.ToString(), cn);
 
                 cn.Open();
+
+                cmd.Parameters.AddWithValue("@studentId", id);
 
                 using (SqlDataReader dataReader = cmd.ExecuteReader())
                 {
@@ -79,8 +83,7 @@ namespace ADO_Net_demo.DAL
                     }
                 }
 
-                cmd.CommandText = $"select * from {stdTableName} " +
-                $"where studentId = {id}";
+                cmd.CommandText = $"select * from {stdTableName} where studentId = @studentId";
 
                 using (SqlDataReader dataReader = cmd.ExecuteReader())
                 {
@@ -143,7 +146,7 @@ namespace ADO_Net_demo.DAL
 
                         students.Add(new Student(studentId, firstName, lastName,
                             phoneNumber, groupName, courses.
-                            Where(x => x.studentId.Equals(studentId)).ToList()));
+                            Where(x => x.StudentId.Equals(studentId)).ToList()));
                     }
                 }
             }
@@ -153,35 +156,47 @@ namespace ADO_Net_demo.DAL
 
         public Student Insert(Student student)
         {
-            string sqlCom = $"Insert into {stdTableName} values (" +
-                $"'{student.FirstName}', '{student.LastName}', " +
-                $"'{student.PhoneNumber}', '{student.GroupName}');";
-
-            StringBuilder sb = new StringBuilder();
+            string sqlCom = $"Insert into {stdTableName} values (@firstName, @lastName, @phoneNumber, @groupName);";
 
             using (SqlConnection cn = new SqlConnection(connString))
             {
                 SqlCommand cmd = new SqlCommand(sqlCom.ToString(), cn);
 
-                cn.Open();
+                cmd.Parameters.AddRange([
+                    new SqlParameter("@firstName", student.FirstName),
+                    new SqlParameter("@lastName", student.LastName),
+                    new SqlParameter("@phoneNumber", student.PhoneNumber),
+                    new SqlParameter("@groupName", student.GroupName)
+                    ]);
 
+                cn.Open();
                 cmd.ExecuteNonQuery();
 
                 student.Id = GetLastStudentId();
 
-                sb.Append($"Insert into {coursesTableName} values ");
+                sqlCom = $"Insert into {coursesTableName} values (@courseName, @score, @startDate, @endDate, @studentId)";
+
+                cmd.CommandText = sqlCom;
+
                 foreach (var course in student.Courses)
                 {
-                    sb.Append($"('{course.Name}', '{course.Score}', " +
-                        $"'{DateOnlyToSqlString(course.StartDate)}', " +
-                        $"'{DateOnlyToSqlString(course.EndDate)}', " +
-                        $"{student.Id}), ");
+                    string startDate = DateOnlyToSqlString(course.StartDate);
+                    string endDate = DateOnlyToSqlString(course.EndDate);
+
+                    cmd.Parameters.AddRange([
+                        new SqlParameter("@courseName", course.Name),
+                            new SqlParameter("@score", course.Score),
+                            new SqlParameter("@startDate", startDate),
+                            new SqlParameter("@endDate", endDate),
+                            new SqlParameter("@studentId", student.Id)
+                    ]);
+
+                    course.StudentId = student.Id;
+
+                    cmd.ExecuteNonQuery();
+
+                    cmd.Parameters.Clear();
                 }
-                sb.Remove(sb.Length - 2, 1);
-
-                cmd.CommandText = sb.ToString();
-
-                cmd.ExecuteNonQuery();
             }
 
             return student;
@@ -189,18 +204,23 @@ namespace ADO_Net_demo.DAL
 
         public Student Update(Student student)
         {
-            string sqlCom = $"Update {stdTableName} set " +
-                $"firstName = '{student.FirstName}', " +
-                $"lastName = '{student.LastName}', " +
-                $"phoneNumber = '{student.PhoneNumber}', " +
-                $"groupName = '{student.GroupName}' " +
-                $"where studentId = {student.Id}";
+            string sqlCom = $"Update {stdTableName} set firstName = @firstName, " +
+                $"lastName = @lastName, phoneNumber = @phoneNumber, groupName = @groupName " +
+                $"where studentId = @studentId";
 
             using (SqlConnection cn = new SqlConnection(connString))
             {
                 SqlCommand cmd = new SqlCommand(sqlCom, cn);
 
                 cn.Open();
+
+                cmd.Parameters.AddRange([
+                    new SqlParameter("@firstName", student.FirstName),
+                    new SqlParameter("@lastName", student.LastName),
+                    new SqlParameter("@phoneNumber", student.PhoneNumber),
+                    new SqlParameter("@groupName", student.GroupName),
+                    new SqlParameter("@studentId", student.Id)
+                    ]);
 
                 SqlTransaction sqlTransaction = cn.BeginTransaction();
                 cmd.Transaction = sqlTransaction;
@@ -209,7 +229,7 @@ namespace ADO_Net_demo.DAL
                 {
                     cmd.ExecuteNonQuery();
 
-                    UpdateCourse(student.Courses, cmd);
+                    UpdateCourse(student.Courses, student.Id, cmd);
 
                     sqlTransaction.Commit();
                 }
@@ -227,36 +247,62 @@ namespace ADO_Net_demo.DAL
             return student;
         }
 
-        private void UpdateCourse(List<Course> courses, SqlCommand cmd)
+        private void UpdateCourse(List<Course> courses, int studentId, SqlCommand cmd)
         {
             foreach (var course in courses)
             {
+                cmd.Parameters.Clear();
+
                 int courseId = course.Id;
                 string courseName = course.Name;
                 string score = course.Score;
                 string startDate = DateOnlyToSqlString(course.StartDate);
                 string endDate = DateOnlyToSqlString(course.EndDate);
 
+                cmd.Parameters.AddRange([
+                        new SqlParameter("@courseName", courseName),
+                            new SqlParameter("@score", score),
+                            new SqlParameter("@startDate", startDate),
+                            new SqlParameter("@endDate", endDate),
+                            new SqlParameter("@studentId", studentId),
+                            new SqlParameter("@courseId", courseId)
+                    ]);
+
+
                 if (courseId == default)
                 {
-                    cmd.CommandText = $"Insert table {coursesTableName} values (" +
-                                  $"courseName = '{courseName}', " +
-                                  $"score = '{score}', " +
-                                  $"startDate = '{startDate}', " +
-                                  $"endDate = '{endDate}')";
+                    cmd.CommandText = $"Insert table {coursesTableName} values (courseName = @courseName, " +
+                                  $"@courseName, @startDate, @endDate, @studentId)";
+
+                    course.Id = GetLastCourseId();
                 }
                 else
                 {
-                    cmd.CommandText = $"Update {coursesTableName} set " +
-                                      $"courseName = '{courseName}', " +
-                                      $"score = '{score}', " +
-                                      $"startDate = '{startDate}', " +
-                                      $"endDate = '{endDate}' " +
-                                      $"where courseId = {courseId};";
+                    cmd.CommandText = $"Update {coursesTableName} set courseName = @courseName, " +
+                                  $"score = @score, startDate = @startDate, " +
+                                  $"endDate = @endDate where courseId = @courseId;";
                 }
 
                 cmd.ExecuteNonQuery();
             }
+        }
+
+        private int GetLastCourseId()
+        {
+            int courseId;
+
+            string sqlCom = $"select max(studentId) from {coursesTableName}";
+
+            using (SqlConnection cn = new SqlConnection(connString))
+            {
+                SqlCommand cmd = new SqlCommand(sqlCom, cn);
+
+                cn.Open();
+
+                courseId = int.Parse(cmd.ExecuteScalar().ToString());
+            }
+
+            return courseId;
         }
 
         private int GetLastStudentId()
