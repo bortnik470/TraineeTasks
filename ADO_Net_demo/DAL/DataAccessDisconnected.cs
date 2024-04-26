@@ -1,64 +1,112 @@
 ﻿using System.Data;
+using System.Data.Common;
 using System.Data.SqlClient;
 
 namespace ADO_Net_demo.DAL
 {
     internal class DataAccessDisconnected : IStudentsRepo
     {
-        private DataSet dataSet;
-        private DataRelation studentCourseRelation;
+        private DataSet DataSet;
+        private DataRelation StudentCourseRelation;
+
+        private SqlDataAdapter StudentsDataAdapter;
+        private SqlDataAdapter CoursesDataAdapter;
+
+        private SqlCommandBuilder StudentsCommandBuilder;
+        private SqlCommandBuilder CoursesCommandBuilder;
 
         public DataAccessDisconnected(string connString)
         {
-            dataSet = new DataSet("University");
+            DataSet = new DataSet("University");
             using (var connection = new SqlConnection(connString))
             {
-                string sqlCom = "select * from students";
+                var studentSqlCom = new SqlCommand
+                {
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "selectStudent",
+                    Connection = connection
+                };
+
+                studentSqlCom.Parameters.Add(new SqlParameter
+                {
+                    ParameterName = "@studentId",
+                    Direction = ParameterDirection.Output,
+                    DbType = DbType.Int32
+                });
+
+                var coursesSqlCom = new SqlCommand
+                {
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "selectCourses",
+                    Connection = connection
+                };
+
+                coursesSqlCom.Parameters.Add(new SqlParameter
+                {
+                    ParameterName = "@courseId",
+                    Direction = ParameterDirection.Output,
+                    DbType = DbType.Int32
+                });
 
                 connection.Open();
-                var command = new SqlCommand(sqlCom, connection);
-                var adapter = new SqlDataAdapter(command);
+                studentSqlCom.ExecuteNonQuery();
+                coursesSqlCom.ExecuteNonQuery();
 
-                adapter.Fill(dataSet, "Students");
+                StudentsDataAdapter = new SqlDataAdapter("select * from students", connString);
+                CoursesDataAdapter = new SqlDataAdapter("select * from Courses", connString);
 
-                sqlCom = "select * from courses";
-                command.CommandText = sqlCom;
+                StudentsCommandBuilder = new SqlCommandBuilder(StudentsDataAdapter);
+                CoursesCommandBuilder = new SqlCommandBuilder(CoursesDataAdapter);
 
-                adapter.Fill(dataSet, "Courses");
+                StudentsDataAdapter.Fill(DataSet, "Students");
 
-                dataSet.Tables["Students"].Columns["studentId"].
+                CoursesDataAdapter.Fill(DataSet, "Courses");
+
+                DataSet.Tables["Students"].Columns["studentId"].
                     Unique = true;
-                dataSet.Tables["Students"].Columns["studentId"].
+                DataSet.Tables["Students"].Columns["studentId"].
                     AutoIncrement = true;
-                dataSet.Tables["Students"].Columns["studentId"].
-                    AutoIncrementSeed = (int)dataSet.Tables["Students"].
-                        Rows[dataSet.Tables["Students"].Rows.Count - 1]["studentId"] + 1;
+                DataSet.Tables["Students"].Columns["studentId"].
+                    AutoIncrementStep = 1;
+                DataSet.Tables["Students"].Columns["studentId"].
+                    AutoIncrementSeed = (int)studentSqlCom.Parameters["@studentId"].Value + 1;
 
 
-                dataSet.Tables["Courses"].Columns["courseId"].
+                DataSet.Tables["Courses"].Columns["courseId"].
                     Unique = true;
-                dataSet.Tables["Courses"].Columns["courseId"].
+                DataSet.Tables["Courses"].Columns["courseId"].
                     AutoIncrement = true;
-                dataSet.Tables["Courses"].Columns["courseId"].
-                    AutoIncrementSeed = (int)dataSet.Tables["Courses"].
-                        Rows[dataSet.Tables["Courses"].Rows.Count - 1]["courseId"] + 1;
+                DataSet.Tables["Courses"].Columns["courseId"].
+                    AutoIncrementStep = 1;
+                DataSet.Tables["Courses"].Columns["courseId"].
+                    AutoIncrementSeed = (int)coursesSqlCom.Parameters["@courseId"].Value + 1;
 
-                studentCourseRelation = dataSet.Relations.Add(
-                    dataSet.Tables["Students"].Columns["studentId"],
-                    dataSet.Tables["Courses"].Columns["studentId"]);
+
+                StudentCourseRelation = DataSet.Relations.Add(
+                    DataSet.Tables["Students"].Columns["studentId"],
+                    DataSet.Tables["Courses"].Columns["studentId"]);
             }
         }
 
         public void Delete(int id)
         {
-            dataSet.Tables["Students"].AsEnumerable().
+            var rowToDelete = DataSet.Tables["Students"].AsEnumerable().
                 Where(x => x["studentId"].Equals(id)).
-                Single().Delete();
+                Single();
+
+            foreach (DataRow row in rowToDelete.GetChildRows(StudentCourseRelation))
+            {
+                row.Delete();
+            }
+            rowToDelete.Delete();
+
+            CoursesDataAdapter.Update(DataSet, "Courses");
+            StudentsDataAdapter.Update(DataSet, "Students");
         }
 
         public Student GetById(int id)
         {
-            var studentRow = dataSet.Tables["Students"].AsEnumerable().
+            var studentRow = DataSet.Tables["Students"].AsEnumerable().
                 Where(x => x["studentId"].Equals(id)).Single();
 
             var student = CreateStudent(studentRow);
@@ -68,7 +116,7 @@ namespace ADO_Net_demo.DAL
 
         public List<Student> GetList()
         {
-            var studentRows = dataSet.Tables["Students"].Select();
+            var studentRows = DataSet.Tables["Students"].Select();
 
             List<Student> students = new List<Student>();
 
@@ -82,39 +130,42 @@ namespace ADO_Net_demo.DAL
 
         public Student Insert(Student student)
         {
-            var studentRow = dataSet.Tables["Students"].NewRow();
+            var studentRow = DataSet.Tables["Students"].NewRow();
 
             studentRow = SetStudentField(studentRow, student);
 
-            dataSet.Tables["Students"].Rows.Add(studentRow);
+            DataSet.Tables["Students"].Rows.Add(studentRow);
 
-            int studentId = (int)dataSet.Tables["Students"].
-                Rows[dataSet.Tables["Students"].Rows.Count - 1]["studentId"];
+            int studentId = (int)DataSet.Tables["Students"].
+                Rows[DataSet.Tables["Students"].Rows.Count - 1]["studentId"];
 
             student.Id = studentId;
 
             foreach (var course in student.Courses)
             {
-                var courseRow = dataSet.Tables["Courses"].NewRow();
+                var courseRow = DataSet.Tables["Courses"].NewRow();
 
                 course.StudentId = studentId;
 
                 courseRow = SetCourseField(courseRow, course);
 
-                dataSet.Tables["Courses"].Rows.Add(courseRow);
+                DataSet.Tables["Courses"].Rows.Add(courseRow);
 
-                int courseId = (int)dataSet.Tables["Courses"].
-                    Rows[dataSet.Tables["Courses"].Rows.Count - 1]["courseId"];
+                int courseId = (int)DataSet.Tables["Courses"].
+                    Rows[DataSet.Tables["Courses"].Rows.Count - 1]["courseId"];
 
                 course.Id = courseId;
             }
+
+            StudentsDataAdapter.Update(DataSet, "Students");
+            CoursesDataAdapter.Update(DataSet, "Courses");
 
             return student;
         }
 
         public Student Update(Student student)
         {
-            var studentRow = dataSet.Tables["Students"].AsEnumerable().
+            var studentRow = DataSet.Tables["Students"].AsEnumerable().
                 Where(x => x["studentId"].Equals(student.Id)).Single();
 
             studentRow.BeginEdit();
@@ -123,7 +174,7 @@ namespace ADO_Net_demo.DAL
                 SetStudentField(studentRow, student);
                 foreach (var course in student.Courses)
                 {
-                    var courseRow = dataSet.Tables["Courses"].AsEnumerable().
+                    var courseRow = DataSet.Tables["Courses"].AsEnumerable().
                         Where(x => x["courseId"].Equals(course.Id)).FirstOrDefault();
 
                     if (courseRow == null)
@@ -148,6 +199,8 @@ namespace ADO_Net_demo.DAL
                     }
                 }
                 studentRow.AcceptChanges();
+                StudentsDataAdapter.Update(DataSet, "Students");
+                CoursesDataAdapter.Update(DataSet, "Courses");
             }
             catch (Exception ex)
             {
@@ -161,16 +214,16 @@ namespace ADO_Net_demo.DAL
 
         public Course AddCourse(Course course, int studentId)
         {
-            var courseRow = dataSet.Tables["Courses"].NewRow();
+            var courseRow = DataSet.Tables["Courses"].NewRow();
 
             course.StudentId = studentId;
 
             courseRow = SetCourseField(courseRow, course);
 
-            dataSet.Tables["Courses"].Rows.Add(courseRow);
+            DataSet.Tables["Courses"].Rows.Add(courseRow);
 
-            int courseId = (int)dataSet.Tables["Courses"].
-                Rows[dataSet.Tables["Courses"].Rows.Count - 1]["courseId"];
+            int courseId = (int)DataSet.Tables["Courses"].
+                Rows[DataSet.Tables["Courses"].Rows.Count - 1]["courseId"];
 
             course.Id = courseId;
 
@@ -187,7 +240,7 @@ namespace ADO_Net_demo.DAL
 
             List<Course> courses = new List<Course>();
 
-            foreach (var course in studentRow.GetChildRows(studentCourseRelation))
+            foreach (var course in studentRow.GetChildRows(StudentCourseRelation))
             {
                 int courseId = (int)course["courseId"];
                 string? courseName = course["courseName"].ToString();
