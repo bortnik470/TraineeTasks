@@ -179,7 +179,7 @@ namespace ADO_Net_demo.DAL
                     string endDate = DateOnlyToSqlString(course.EndDate);
 
                     cmd.Parameters.AddRange([
-                        new SqlParameter("@courseName", course.Name),
+                            new SqlParameter("@courseName", course.Name),
                             new SqlParameter("@score", course.Score),
                             new SqlParameter("@startDate", startDate),
                             new SqlParameter("@endDate", endDate),
