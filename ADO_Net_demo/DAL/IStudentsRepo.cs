@@ -1,6 +1,6 @@
 ﻿namespace ADO_Net_demo.DAL
 {
-    internal interface IStudentsRepo
+    public interface IStudentsRepo
     {
         List<Student> GetList();
 

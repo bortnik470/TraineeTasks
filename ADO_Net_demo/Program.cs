@@ -1,31 +1,32 @@
 ﻿using ADO_Net_demo;
 using ADO_Net_demo.DAL;
-using System.Configuration;
 
-DataAccessConnected dataAccessConnected = new DataAccessConnected();
+var StudentRepo = new StudentRepoLogic(new DataAccessDisconnected());
 
-var st = new Student(40, "David", "Young", "32144125", "2A", new List<Course> {
-                    new Course(33, 40, "Math", "E",
-                        new DateOnly(2002, 2, 11), new DateOnly(2002, 6, 20)),
-                    new Course(34, 40, "English", "C",
-                        new DateOnly(2001, 9, 15), new DateOnly(2002, 1, 10))
+var students = StudentRepo.GetAllStudents();
+
+var student = StudentRepo.GetStudentById(5);
+
+foreach (var st in students)
+{
+    Console.WriteLine(st);
+}
+
+Console.WriteLine("----------------------------------------------\n\n");
+
+Console.WriteLine(student);
+
+var studentToAdd = new Student("Vlad", "Smith", "3609432698", "2B", new List<Course> {
+                    new Course("PE", "A",
+                        new DateOnly(1992, 2, 24), new DateOnly(1993, 2, 23)),
+                    new Course("Art", "C",
+                        new DateOnly(1992, 2, 22), new DateOnly(1993, 2, 23))
                     });
 
-DataAccessDisconnected dataAccessDisconnected = 
-    new DataAccessDisconnected(ConfigurationManager.ConnectionStrings["SqlConnectionString"].ConnectionString);
+//StudentRepo.AddStudent(studentToAdd);
 
-//dataAccessDisconnected.Delete(39);
+studentToAdd.FirstName = "Igor";
 
-//dataAccessDisconnected.Insert(st);
+//StudentRepo.UpdateStudent(studentToAdd);
 
-st.FirstName = "First";
-st.Courses.Add(new Course("Art", "Fx",
-                        new DateOnly(2002, 2, 11), new DateOnly(2002, 5, 21)));
-
-st.Courses[0].Name = "Dash";
-
-dataAccessDisconnected.Update(st);
-
-var s = dataAccessDisconnected.GetList();
-
-Console.WriteLine(dataAccessDisconnected.GetById(3));
+//StudentRepo.DeleteStudent(46);

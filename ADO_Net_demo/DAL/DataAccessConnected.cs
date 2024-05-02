@@ -123,7 +123,7 @@ namespace ADO_Net_demo.DAL
                         DateOnly startDate = DateOnly.FromDateTime(dataReader.GetDateTime(3));
                         DateOnly endDate = DateOnly.FromDateTime(dataReader.GetDateTime(4));
 
-                        courses.Add(new Course(courseId, studentId, courseName, score, startDate, endDate));
+                        courses.Add(new Course(courseId, courseName, score, startDate, endDate, studentId));
                     }
                 }
 
@@ -167,7 +167,7 @@ namespace ADO_Net_demo.DAL
                 cn.Open();
                 cmd.ExecuteNonQuery();
 
-                student.Id = GetLastStudentId();
+                student.StudentId = GetLastStudentId();
 
                 sqlCom = $"Insert into {coursesTableName} values (@courseName, @score, @startDate, @endDate, @studentId)";
 
@@ -179,14 +179,14 @@ namespace ADO_Net_demo.DAL
                     string endDate = DateOnlyToSqlString(course.EndDate);
 
                     cmd.Parameters.AddRange([
-                            new SqlParameter("@courseName", course.Name),
+                            new SqlParameter("@courseName", course.CourseName),
                             new SqlParameter("@score", course.Score),
                             new SqlParameter("@startDate", startDate),
                             new SqlParameter("@endDate", endDate),
-                            new SqlParameter("@studentId", student.Id)
+                            new SqlParameter("@studentId", student.StudentId)
                     ]);
 
-                    course.StudentId = student.Id;
+                    course.StudentId = student.StudentId;
 
                     cmd.ExecuteNonQuery();
 
@@ -214,7 +214,7 @@ namespace ADO_Net_demo.DAL
                     new SqlParameter("@lastName", student.LastName),
                     new SqlParameter("@phoneNumber", student.PhoneNumber),
                     new SqlParameter("@groupName", student.GroupName),
-                    new SqlParameter("@studentId", student.Id)
+                    new SqlParameter("@studentId", student.StudentId)
                     ]);
 
                 SqlTransaction sqlTransaction = cn.BeginTransaction();
@@ -224,7 +224,7 @@ namespace ADO_Net_demo.DAL
                 {
                     cmd.ExecuteNonQuery();
 
-                    UpdateCourse(student.Courses, student.Id, cmd);
+                    UpdateCourse(student.Courses.ToList(), student.StudentId, cmd);
 
                     sqlTransaction.Commit();
                 }
@@ -248,8 +248,8 @@ namespace ADO_Net_demo.DAL
             {
                 cmd.Parameters.Clear();
 
-                int courseId = course.Id;
-                string courseName = course.Name;
+                int courseId = course.CourseId;
+                string courseName = course.CourseName;
                 string score = course.Score;
                 string startDate = DateOnlyToSqlString(course.StartDate);
                 string endDate = DateOnlyToSqlString(course.EndDate);
@@ -269,7 +269,7 @@ namespace ADO_Net_demo.DAL
                     cmd.CommandText = $"Insert table {coursesTableName} values (courseName = @courseName, " +
                                   $"@courseName, @startDate, @endDate, @studentId)";
 
-                    course.Id = GetLastCourseId();
+                    course.CourseId = GetLastCourseId();
                 }
                 else
                 {

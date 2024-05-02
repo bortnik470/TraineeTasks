@@ -1,17 +1,26 @@
-﻿using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text;
 
 namespace ADO_Net_demo
 {
+    [Table("Students")]
     public class Student
     {
-        public int Id { get; set; }
+        [Key]
+        public int StudentId { get; set; }
+        [StringLength(255), Required]
         public string FirstName { get; set; }
+        [StringLength(255), Required]
         public string LastName { get; set; }
+        [StringLength(55)]
         public string PhoneNumber { get; set; }
+        [StringLength(5)]
         public string GroupName { get; set; }
-        public List<Course> Courses { get; set; }
+        [ForeignKey("StudentId")]
+        public ICollection<Course> Courses { get; set; }
 
-        public Student(string firstName, string lastName, string phoneNumber, string groupName, List<Course> courses)
+        public Student(string firstName, string lastName, string phoneNumber, string groupName, ICollection<Course> courses)
         {
             FirstName = firstName;
             LastName = lastName;
@@ -20,14 +29,24 @@ namespace ADO_Net_demo
             Courses = courses;
         }
 
-        public Student(int id, string firstName, string lastName, string phoneNumber, string groupName, List<Course> courses)
+        public Student(int studentId, string firstName, string lastName, string phoneNumber, string groupName, ICollection<Course> courses)
         {
-            Id = id;
+            StudentId = studentId;
             FirstName = firstName;
             LastName = lastName;
             PhoneNumber = phoneNumber;
             GroupName = groupName;
             Courses = courses;
+        }
+
+        public Student(int studentId, string firstName, string lastName, string phoneNumber, string groupName)
+        {
+            StudentId = studentId;
+            FirstName = firstName;
+            LastName = lastName;
+            PhoneNumber = phoneNumber;
+            GroupName = groupName;
+            Courses = new List<Course>();
         }
 
         public override string ToString()
@@ -39,7 +58,7 @@ namespace ADO_Net_demo
             sb.AppendLine($"He has next disciplines: ");
             foreach (var course in Courses)
             {
-                sb.AppendLine($"\tDiscipline name: {course.Name}");
+                sb.AppendLine($"\tDiscipline name: {course.CourseName}");
                 sb.AppendLine($"\tDiscipline period: from {course.StartDate} " +
                     $"to {course.EndDate}");
                 if (!course.Score.Equals("None"))

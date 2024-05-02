@@ -22,7 +22,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calculator", "Calculator\Ca
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentsInfo", "StudentsInfo\StudentsInfo.csproj", "{3D03C6FC-F3B4-4C85-A9A0-2DE9D199883C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ADO_Net_demo", "ADO_Net_demo\ADO_Net_demo.csproj", "{CF60E79D-E631-422E-8F0B-84BCEEDFD517}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ADO_Net_demo", "ADO_Net_demo\ADO_Net_demo.csproj", "{CF60E79D-E631-422E-8F0B-84BCEEDFD517}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

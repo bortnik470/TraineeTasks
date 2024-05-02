@@ -1,5 +1,5 @@
-﻿using System.Data;
-using System.Data.Common;
+﻿using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace ADO_Net_demo.DAL
@@ -15,8 +15,9 @@ namespace ADO_Net_demo.DAL
         private SqlCommandBuilder StudentsCommandBuilder;
         private SqlCommandBuilder CoursesCommandBuilder;
 
-        public DataAccessDisconnected(string connString)
+        public DataAccessDisconnected()
         {
+            var connString = ConfigurationManager.ConnectionStrings["SqlConnectionString"].ConnectionString;
             DataSet = new DataSet("University");
             using (var connection = new SqlConnection(connString))
             {
@@ -139,7 +140,7 @@ namespace ADO_Net_demo.DAL
             int studentId = (int)DataSet.Tables["Students"].
                 Rows[DataSet.Tables["Students"].Rows.Count - 1]["studentId"];
 
-            student.Id = studentId;
+            student.StudentId = studentId;
 
             foreach (var course in student.Courses)
             {
@@ -154,7 +155,7 @@ namespace ADO_Net_demo.DAL
                 int courseId = (int)DataSet.Tables["Courses"].
                     Rows[DataSet.Tables["Courses"].Rows.Count - 1]["courseId"];
 
-                course.Id = courseId;
+                course.CourseId = courseId;
             }
 
             StudentsDataAdapter.Update(DataSet, "Students");
@@ -166,7 +167,7 @@ namespace ADO_Net_demo.DAL
         public Student Update(Student student)
         {
             var studentRow = DataSet.Tables["Students"].AsEnumerable().
-                Where(x => x["studentId"].Equals(student.Id)).Single();
+                Where(x => x["studentId"].Equals(student.StudentId)).Single();
 
             studentRow.BeginEdit();
             try
@@ -175,11 +176,11 @@ namespace ADO_Net_demo.DAL
                 foreach (var course in student.Courses)
                 {
                     var courseRow = DataSet.Tables["Courses"].AsEnumerable().
-                        Where(x => x["courseId"].Equals(course.Id)).FirstOrDefault();
+                        Where(x => x["courseId"].Equals(course.CourseId)).FirstOrDefault();
 
                     if (courseRow == null)
                     {
-                        AddCourse(course, student.Id);
+                        AddCourse(course, student.StudentId);
                     }
                     else
                     {
@@ -225,7 +226,7 @@ namespace ADO_Net_demo.DAL
             int courseId = (int)DataSet.Tables["Courses"].
                 Rows[DataSet.Tables["Courses"].Rows.Count - 1]["courseId"];
 
-            course.Id = courseId;
+            course.CourseId = courseId;
 
             return course;
         }
@@ -248,7 +249,7 @@ namespace ADO_Net_demo.DAL
                 DateOnly startDate = DateOnly.FromDateTime((DateTime)course["startDate"]);
                 DateOnly endDate = DateOnly.FromDateTime((DateTime)course["endDate"]);
 
-                courses.Add(new Course(courseId, studentId, courseName, score, startDate, endDate));
+                courses.Add(new Course(courseId, courseName, score, startDate, endDate, studentId));
             }
 
             Student student = new Student(studentId, firstName, lastName, phoneNumber, groupName, courses);
@@ -268,7 +269,7 @@ namespace ADO_Net_demo.DAL
 
         private DataRow SetCourseField(DataRow courseRow, Course course)
         {
-            courseRow.SetField(1, course.Name);
+            courseRow.SetField(1, course.CourseName);
             courseRow.SetField(2, course.Score);
             courseRow.SetField(3, course.StartDate.
                 ToDateTime(TimeOnly.MinValue));
