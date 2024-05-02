@@ -51,9 +51,16 @@ namespace ADO_Net_demo.DAL
 
         public Student Update(Student student)
         {
-            Students.Update(student);
-            SaveChanges();
-            return student;
+            if (student.StudentId == 0)
+            {
+                throw new KeyNotFoundException("Student doesnt exist");
+            }
+            else
+            {
+                Students.Update(student);
+                SaveChanges();
+                return student;
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -1,7 +1,7 @@
 ﻿using ADO_Net_demo;
 using ADO_Net_demo.DAL;
 
-var StudentRepo = new StudentRepoLogic(new DataAccessDisconnected());
+var StudentRepo = new StudentRepoLogic(new DataAccessEF());
 
 var students = StudentRepo.GetAllStudents();
 
@@ -26,7 +26,8 @@ var studentToAdd = new Student("Vlad", "Smith", "3609432698", "2B", new List<Cou
 //StudentRepo.AddStudent(studentToAdd);
 
 studentToAdd.FirstName = "Igor";
+studentToAdd.Courses.ToList()[0].CourseName = "Chemistry";
 
-//StudentRepo.UpdateStudent(studentToAdd);
+StudentRepo.UpdateStudent(studentToAdd);
 
 //StudentRepo.DeleteStudent(46);
