@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System.Configuration;
 
 namespace ADO_Net_demo.DAL
@@ -14,8 +15,7 @@ namespace ADO_Net_demo.DAL
 
         public void Delete(int id)
         {
-            var studentForDel = Students.Where(x => x.StudentId == id).
-                                         FirstOrDefault();
+            var studentForDel = GetById(id);
             if (studentForDel != null)
             {
                 Students.Remove(studentForDel);
@@ -29,9 +29,11 @@ namespace ADO_Net_demo.DAL
 
         public Student GetById(int id)
         {
-            return Students.
+            var student = Students.
                 Include(x => x.Courses).
-                First(x => x.StudentId == id);
+                FirstOrDefault(x => x.StudentId == id);
+
+            return student;
         }
 
         public List<Student> GetList()
@@ -70,7 +72,9 @@ namespace ADO_Net_demo.DAL
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["SqlConnectionString"].ConnectionString, builder => builder.EnableRetryOnFailure());
+            optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["SqlConnectionString"].ConnectionString, builder => builder.EnableRetryOnFailure()).
+                LogTo(Console.WriteLine, new[] {DbLoggerCategory.Database.Command.Name}, LogLevel.Information).
+                EnableSensitiveDataLogging();
         }
     }
 }
