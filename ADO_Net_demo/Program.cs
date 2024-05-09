@@ -5,6 +5,6 @@ var StudentRepo = new StudentRepoLogic(new DataAccessEF());
 
 var test = new LinqToXml();
 
-test.AddStudent(StudentRepo.GetStudentById(5));
+test.AddStudent(StudentRepo.GetStudentById(27));
 
 test.GetStudents();

@@ -29,7 +29,8 @@ namespace ADO_Net_demo
 
         public void AddStudent(Student student)
         {
-            var studentElem = new XElement("Student", new XAttribute("StudentId", student.StudentId),
+            var studentElem = new XElement("Student", 
+                new XAttribute("StudentId", student.StudentId),
                 new XElement("FirstName", student.FirstName),
                 new XElement("LastName", student.LastName),
                 new XElement("PhoneNumber", student.PhoneNumber),
@@ -37,7 +38,8 @@ namespace ADO_Net_demo
 
             foreach (var course in student.Courses)
             {
-                var courseElem = new XElement("Course", new XAttribute("CourseId", course.CourseId),
+                var courseElem = new XElement("Course", 
+                    new XAttribute("CourseId", course.CourseId),
                     new XAttribute("StudentId", student.StudentId),
                     new XElement("CourseName", course.CourseName),
                     new XElement("Score", course.Score),
