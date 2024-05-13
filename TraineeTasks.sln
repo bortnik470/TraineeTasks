@@ -28,6 +28,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SystemInfoService", "System
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceTest", "ServiceTest\ServiceTest.csproj", "{3A9F10AF-6CF2-4226-8986-2B15EAB1730A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegexTest", "RegexTest\RegexTest.csproj", "{0F4D06E0-F271-48AC-A461-0BE86FCCFF5B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -70,6 +72,10 @@ Global
 		{3A9F10AF-6CF2-4226-8986-2B15EAB1730A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A9F10AF-6CF2-4226-8986-2B15EAB1730A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A9F10AF-6CF2-4226-8986-2B15EAB1730A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F4D06E0-F271-48AC-A461-0BE86FCCFF5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F4D06E0-F271-48AC-A461-0BE86FCCFF5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F4D06E0-F271-48AC-A461-0BE86FCCFF5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F4D06E0-F271-48AC-A461-0BE86FCCFF5B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

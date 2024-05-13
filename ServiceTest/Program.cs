@@ -1,4 +1,5 @@
 ﻿using ServiceReference1;
+using ServiceTest;
 
 SystemInfoServiceClient serviceClient = new SystemInfoServiceClient();
 
