@@ -26,9 +26,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ADO_Net_demo", "ADO_Net_dem
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SystemInfoService", "SystemInfoService\SystemInfoService.csproj", "{9DC9845C-65DF-4BD0-B276-E37460FA1CA3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceTest", "ServiceTest\ServiceTest.csproj", "{3A9F10AF-6CF2-4226-8986-2B15EAB1730A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceTest", "ServiceTest\ServiceTest.csproj", "{3A9F10AF-6CF2-4226-8986-2B15EAB1730A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegexTest", "RegexTest\RegexTest.csproj", "{0F4D06E0-F271-48AC-A461-0BE86FCCFF5B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RegexTest", "RegexTest\RegexTest.csproj", "{0F4D06E0-F271-48AC-A461-0BE86FCCFF5B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesignPattern-Strategy", "DesignPattern-Strategy\DesignPattern-Strategy.csproj", "{009C7A46-819F-47C4-8377-91CA95E3AABE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -76,6 +78,10 @@ Global
 		{0F4D06E0-F271-48AC-A461-0BE86FCCFF5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F4D06E0-F271-48AC-A461-0BE86FCCFF5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F4D06E0-F271-48AC-A461-0BE86FCCFF5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{009C7A46-819F-47C4-8377-91CA95E3AABE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{009C7A46-819F-47C4-8377-91CA95E3AABE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{009C7A46-819F-47C4-8377-91CA95E3AABE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{009C7A46-819F-47C4-8377-91CA95E3AABE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
