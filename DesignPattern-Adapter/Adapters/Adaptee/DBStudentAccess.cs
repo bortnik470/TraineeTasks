@@ -5,9 +5,39 @@ using System.Data.SqlClient;
 
 namespace DesignPattern_Adapter.Adapters.Adaptee
 {
-    internal class DBStudentAccess
+    internal class DBStudentAccess : IDBStudentAccess
     {
         private readonly string connStr = ConfigurationManager.ConnectionStrings["SqlConnectionString"].ConnectionString;
+
+        public List<Student> GetStudents()
+        {
+            List<Student> students = new();
+
+            using (SqlConnection sqlConnection = new SqlConnection(connStr))
+            {
+                sqlConnection.Open();
+
+                string sqlQuery = @"Select * from students";
+
+                SqlCommand cmd = new SqlCommand(sqlQuery, sqlConnection);
+
+                using (SqlDataReader dataReader = cmd.ExecuteReader())
+                {
+                    while (dataReader.Read())
+                    {
+                        int studentId = dataReader.GetInt32("studentId");
+                        string firstName = dataReader.GetString("firstName");
+                        string lastName = dataReader.GetString("lastName");
+                        string phoneNumber = dataReader.GetString("phoneNumber");
+                        string groupName = dataReader.GetString("groupName");
+
+                        students.Add(new Student(studentId, firstName, lastName, phoneNumber, groupName));
+                    }
+                }
+            }
+
+            return students;
+        }
 
         public Student GetStudent(int id)
         {

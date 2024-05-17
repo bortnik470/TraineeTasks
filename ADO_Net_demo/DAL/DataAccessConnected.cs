@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 
 namespace ADO_Net_demo.DAL
 {
-    internal class DataAccessConnected : IStudentsRepo
+    public class DataAccessConnected : IStudentsRepo
     {
         private const string stdTableName = "Students";
         private const string coursesTableName = "Courses";
@@ -242,6 +242,23 @@ namespace ADO_Net_demo.DAL
             return student;
         }
 
+        public void UpdateCourseScore(int courseId, string score)
+        {
+            string sqlCom = "Update Students set score = @score where courseId = @courseId";
+
+            using (SqlConnection cn = new SqlConnection(connString))
+            {
+                SqlCommand cmd = new SqlCommand(sqlCom, cn);
+
+                cmd.Parameters.AddWithValue("@score", score);
+                cmd.Parameters.AddWithValue("@courseId", courseId);
+
+                cn.Open();
+
+                cmd.ExecuteNonQuery();
+            }
+        }
+
         private void UpdateCourse(List<Course> courses, int studentId, SqlCommand cmd)
         {
             foreach (var course in courses)
@@ -267,7 +284,7 @@ namespace ADO_Net_demo.DAL
                 if (courseId == default)
                 {
                     cmd.CommandText = $"Insert table {coursesTableName} values (courseName = @courseName, " +
-                                  $"@courseName, @startDate, @endDate, @studentId)";
+                                  $"@score, @startDate, @endDate, @studentId)";
 
                     course.CourseId = GetLastCourseId();
                 }

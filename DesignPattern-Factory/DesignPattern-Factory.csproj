@@ -8,4 +8,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ADO_Net_demo\ADO_Net_demo.csproj" />
+  </ItemGroup>
+
 </Project>

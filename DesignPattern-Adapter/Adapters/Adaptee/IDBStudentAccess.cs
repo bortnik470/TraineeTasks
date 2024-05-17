@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DesignPattern_Adapter.Adapters
 {
-    internal interface IStudentAccessAdapter
+    internal interface IDBStudentAccess
     {
         public Student GetStudent(int id);
     }

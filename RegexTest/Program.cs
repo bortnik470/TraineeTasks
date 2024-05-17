@@ -4,13 +4,13 @@ string regPattern1 = @"(first)(?=grade)";
 string regPattern2 = @"[0-9]{5}";
 string regPattern3 = @"(?<=first)(second)";
 string regPattern4 = @"[1-8]+0";
-string regPattern5 = @"^[a-zA-Z0-9\._\+\-]+@[a-zA-Z0-9]+\.[a-z]{3,}$";
+string regPattern5 = @"^[a-zA-Z0-9\._\+\-]+@[a-zA-Z0-9]+\.[a-zA-Z]{3,}$";
 
 string value1 = "firstgradefirstdecade";
 string value2 = "1234512ds345";
 string value3 = "firstsecond44532 firstgrade";
 string value4 = "0420359128450";
-string value5 = "someMail@gmail.com";
+string value5 = "MYKOLA.ZELENYI@NICE.COM";
 
 Regex regex3 = new Regex(regPattern3);
 
