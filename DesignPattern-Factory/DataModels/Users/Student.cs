@@ -1,6 +1,5 @@
 ﻿using StudentsInfo.DataModels;
 using System.Text;
-using System.Text.RegularExpressions;
 
 namespace DesignPattern_Factory.DataModels.Users
 {
@@ -16,7 +15,7 @@ namespace DesignPattern_Factory.DataModels.Users
 
         public Student(string firstName, string lastName, string phoneNumber, List<Course> disciplines, string groupName) : base(firstName, lastName, phoneNumber)
         {
-            if(disciplines == null)
+            if (disciplines == null)
                 Courses = new();
             else
                 Courses = disciplines;

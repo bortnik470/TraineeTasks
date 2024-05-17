@@ -10,7 +10,7 @@ string value1 = "firstgradefirstdecade";
 string value2 = "1234512ds345";
 string value3 = "firstsecond44532 firstgrade";
 string value4 = "0420359128450";
-string value5 = "MYKOLA.ZELENYI@NICE.COM";
+string value5 = "SOMEMAIL@NICE.COM";
 
 Regex regex3 = new Regex(regPattern3);
 

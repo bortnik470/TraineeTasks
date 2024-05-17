@@ -1,11 +1,6 @@
 ﻿using DesignPattern_Factory.DataModels.Users;
 using DesignPattern_Factory.Enums;
 using StudentsInfo.DataModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DesignPattern_Factory.Factories
 {
@@ -82,6 +77,6 @@ namespace DesignPattern_Factory.Factories
             string phoneNumber = Console.ReadLine();
 
             return new List<string>() { firstName, lastName, phoneNumber };
-        } 
+        }
     }
 }

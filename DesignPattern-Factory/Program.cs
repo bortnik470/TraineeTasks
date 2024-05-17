@@ -5,7 +5,7 @@ FileSeeder fileSeeder = new();
 
 fileSeeder.XmlUserSeed();
 
-FileFactory fileFactory = new FileFactory();
+BaseFactoryMethod fileFactory = new FileFactory();
 
 var student = fileFactory.GetUser(1);
 var admin = fileFactory.GetUser(7);

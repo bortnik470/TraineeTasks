@@ -27,7 +27,7 @@ namespace DesignPattern_Factory.Factories
         {
             XDocument xDocument = XDocument.Load(PathToFile);
 
-            var xUser = xDocument.Descendants("User").Where(x => 
+            var xUser = xDocument.Descendants("User").Where(x =>
                     int.Parse(x.Attribute("ID").Value).Equals(userId)).
                 FirstOrDefault();
 

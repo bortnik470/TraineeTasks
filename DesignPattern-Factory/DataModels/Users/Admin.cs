@@ -72,7 +72,7 @@ namespace DesignPattern_Factory.DataModels.Users
 
             StringBuilder sb = new StringBuilder();
 
-            foreach ( var student in students)
+            foreach (var student in students)
             {
                 sb.AppendLine(student.ToString());
             }

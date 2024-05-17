@@ -32,7 +32,7 @@ namespace DesignPattern_Factory.DataModels.Users
             foreach (var student in studentsData)
             {
                 students.Add(new Student(student.FirstName, student.LastName,
-                    student.PhoneNumber, new List<Course>(),student.GroupName));
+                    student.PhoneNumber, new List<Course>(), student.GroupName));
             }
 
             return students;
@@ -55,7 +55,7 @@ namespace DesignPattern_Factory.DataModels.Users
                     SetScore(courseID, score);
                     break;
                 case 2:
-                    foreach(var student in GetStudents())
+                    foreach (var student in GetStudents())
                     {
                         Console.WriteLine(student.ToString());
                     }
