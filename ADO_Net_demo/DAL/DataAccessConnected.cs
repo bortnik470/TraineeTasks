@@ -283,7 +283,7 @@ namespace ADO_Net_demo.DAL
 
                 if (courseId == default)
                 {
-                    cmd.CommandText = $"Insert table {coursesTableName} values (courseName = @courseName, " +
+                    cmd.CommandText = $"Insert into {coursesTableName} values (@courseName, " +
                                   $"@score, @startDate, @endDate, @studentId)";
 
                     course.CourseId = GetLastCourseId();

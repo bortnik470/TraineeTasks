@@ -33,8 +33,12 @@ namespace ADO_Net_demo
             this(courseName, score, startDate, endDate)
         { this.CourseId = courseId; }
 
-        public Course(int id, string name, string score, DateOnly startDate, DateOnly endDate, int studentId) :
-            this(id, name, score, startDate, endDate)
+        public Course(int courseId, string name, string score, DateOnly startDate, DateOnly endDate, int studentId) :
+            this(courseId, name, score, startDate, endDate)
+        { this.StudentId = studentId; }
+
+        public Course(string name, string score, DateOnly startDate, DateOnly endDate, int studentId) :
+            this(name, score, startDate, endDate)
         { this.StudentId = studentId; }
     }
 }

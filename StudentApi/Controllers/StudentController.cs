@@ -1,6 +1,4 @@
 ﻿using ADO_Net_demo;
-using ADO_Net_demo.DAL;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using StudentApi.Models;

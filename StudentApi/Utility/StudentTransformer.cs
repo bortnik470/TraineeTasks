@@ -12,6 +12,11 @@ namespace StudentApi.Utility
             studentToCreate.PhoneNumber = student.PhoneNumber;
             studentToCreate.GroupName = student.GroupName;
 
+            foreach (var course in student.Courses)
+            {
+                studentToCreate.CoursesToCreate.Add(new CourseToCreate().TransformFromCourse(course));
+            }
+
             return studentToCreate;
         }
 
@@ -22,6 +27,7 @@ namespace StudentApi.Utility
             student.LastName = studentToCreate.LastName;
             student.PhoneNumber = studentToCreate.PhoneNumber;
             student.GroupName = studentToCreate.GroupName;
+            student.Courses = new List<Course>().TransformAllFromCourseToCreate(studentToCreate.CoursesToCreate);
 
             return student;
         }
@@ -32,6 +38,7 @@ namespace StudentApi.Utility
             student.LastName = studentToCreate.LastName;
             student.PhoneNumber = studentToCreate.PhoneNumber;
             student.GroupName = studentToCreate.GroupName;
+            student.Courses = new List<Course>().TransformAllFromCourseToCreate(studentToCreate.CoursesToCreate);
 
             return student;
         }

@@ -25,5 +25,7 @@ namespace StudentApi.Models
         [Required]
         [MaxLength(5)]
         public string GroupName { get; set; }
+
+        public List<CourseToCreate> CoursesToCreate { get; set; } = new List<CourseToCreate>();
     }
 }
