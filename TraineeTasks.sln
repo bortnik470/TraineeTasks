@@ -30,11 +30,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceTest", "ServiceTest\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RegexTest", "RegexTest\RegexTest.csproj", "{0F4D06E0-F271-48AC-A461-0BE86FCCFF5B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesignPattern-Strategy", "DesignPattern-Strategy\DesignPattern-Strategy.csproj", "{009C7A46-819F-47C4-8377-91CA95E3AABE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DesignPattern-Strategy", "DesignPattern-Strategy\DesignPattern-Strategy.csproj", "{009C7A46-819F-47C4-8377-91CA95E3AABE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesignPattern-Factory", "DesignPattern-Factory\DesignPattern-Factory.csproj", "{40205D87-B3FF-44A2-BFDA-6DF2CFD4E095}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DesignPattern-Factory", "DesignPattern-Factory\DesignPattern-Factory.csproj", "{40205D87-B3FF-44A2-BFDA-6DF2CFD4E095}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesignPattern-Adapter", "DesignPattern-Adapter\DesignPattern-Adapter.csproj", "{74485D39-1A22-4051-B4D6-96E05A38E25F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DesignPattern-Adapter", "DesignPattern-Adapter\DesignPattern-Adapter.csproj", "{74485D39-1A22-4051-B4D6-96E05A38E25F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentApi", "StudentApi\StudentApi.csproj", "{E6DACE82-22F7-4839-A383-1EA15CEA575E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -94,6 +96,10 @@ Global
 		{74485D39-1A22-4051-B4D6-96E05A38E25F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74485D39-1A22-4051-B4D6-96E05A38E25F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{74485D39-1A22-4051-B4D6-96E05A38E25F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6DACE82-22F7-4839-A383-1EA15CEA575E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6DACE82-22F7-4839-A383-1EA15CEA575E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6DACE82-22F7-4839-A383-1EA15CEA575E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6DACE82-22F7-4839-A383-1EA15CEA575E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

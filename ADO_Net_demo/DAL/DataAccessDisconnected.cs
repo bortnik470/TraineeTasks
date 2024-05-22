@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 
 namespace ADO_Net_demo.DAL
 {
-    internal class DataAccessDisconnected : IStudentsRepo
+    public class DataAccessDisconnected : IStudentsRepo
     {
         private DataSet DataSet;
         private DataRelation StudentCourseRelation;
@@ -108,7 +108,10 @@ namespace ADO_Net_demo.DAL
         public Student GetById(int id)
         {
             var studentRow = DataSet.Tables["Students"].AsEnumerable().
-                Where(x => x["studentId"].Equals(id)).Single();
+                Where(x => x["studentId"].Equals(id)).FirstOrDefault();
+
+            if (studentRow == default)
+                return default;
 
             var student = CreateStudent(studentRow);
 

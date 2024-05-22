@@ -48,6 +48,18 @@ namespace ADO_Net_demo
             GroupName = groupName;
             Courses = new List<Course>();
         }
+        public Student(string firstName, string lastName, string phoneNumber, string groupName)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            PhoneNumber = phoneNumber;
+            GroupName = groupName;
+            Courses = new List<Course>();
+        }
+
+        public Student()
+        {
+        }
 
         public override string ToString()
         {
