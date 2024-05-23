@@ -74,7 +74,7 @@ namespace ADO_Net_demo.DAL
                         DateOnly startDate = DateOnly.FromDateTime(dataReader.GetDateTime(3));
                         DateOnly endDate = DateOnly.FromDateTime(dataReader.GetDateTime(4));
 
-                        courses.Add(new Course(courseId, courseName, score, startDate, endDate));
+                        courses.Add(new Course(courseId, courseName, score, startDate, endDate, id));
                     }
                 }
 

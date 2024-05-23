@@ -1,5 +1,7 @@
 using ADO_Net_demo;
 using ADO_Net_demo.DAL;
+using StudentApi.Models;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +11,7 @@ builder.Services.AddControllers()
                 .AddNewtonsoftJson();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddSingleton(new StudentRepoLogic(new DataAccessConnected()));
 
 var app = builder.Build();

@@ -1,8 +1,8 @@
 ﻿using ADO_Net_demo;
+using AutoMapper;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using StudentApi.Models;
-using StudentApi.Utility;
 
 namespace StudentApi.Controllers
 {
@@ -11,16 +11,19 @@ namespace StudentApi.Controllers
     public class StudentController : ControllerBase
     {
         private readonly StudentRepoLogic _studentsRepo;
+        private readonly IMapper _mapper;
 
-        public StudentController(StudentRepoLogic studentsRepo)
+        public StudentController(StudentRepoLogic studentsRepo,
+            IMapper mapper)
         {
             _studentsRepo = studentsRepo;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public ActionResult<Student> GetStudents()
+        public ActionResult<IEnumerable<Student>> GetStudents()
         {
-            var studentsList = _studentsRepo.GetAllStudents();
+            var studentsList = _studentsRepo.GetAllStudents() as IEnumerable<Student>;
 
             return Ok(studentsList);
         }
@@ -47,7 +50,7 @@ namespace StudentApi.Controllers
         [HttpPost]
         public ActionResult CreateStudent(StudentToCreate studentToCreate)
         {
-            var student = new Student().TransformFromStudentToCreate(studentToCreate);
+            var student = _mapper.Map<Student>(studentToCreate);
 
             _studentsRepo.AddStudent(student);
 
@@ -60,7 +63,8 @@ namespace StudentApi.Controllers
             if (_studentsRepo.GetStudentById(id) == null)
                 return NotFound();
 
-            var student = new Student().TransformFromStudentToCreate(studentToUpdate, id);
+            var student = _mapper.Map<Student>(studentToUpdate);
+            student.StudentId = id;
 
             _studentsRepo.UpdateStudent(student);
 
@@ -75,11 +79,11 @@ namespace StudentApi.Controllers
             if (studentToUpdate == null)
                 return NotFound();
 
-            var pathedStudent = new StudentToCreate().TransformFromDbStudent(studentToUpdate);
+            var pathedStudent = _mapper.Map<StudentToCreate>(studentToUpdate);
 
             patchDocument.ApplyTo(pathedStudent, ModelState);
 
-            studentToUpdate = studentToUpdate.TransformFromStudentToCreate(pathedStudent);
+            studentToUpdate = _mapper.Map<Student>(pathedStudent);
 
             _studentsRepo.UpdateStudent(studentToUpdate);
 

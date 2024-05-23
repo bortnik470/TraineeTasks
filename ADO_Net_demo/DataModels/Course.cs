@@ -40,5 +40,9 @@ namespace ADO_Net_demo
         public Course(string name, string score, DateOnly startDate, DateOnly endDate, int studentId) :
             this(name, score, startDate, endDate)
         { this.StudentId = studentId; }
+
+        public Course()
+        {
+        }
     }
 }

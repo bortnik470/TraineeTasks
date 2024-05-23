@@ -16,6 +16,8 @@ namespace StudentApi.Models
             GroupName = groupName;
         }
 
+
+        public int StudentId { get; private set; }
         [Required]
         public string FirstName { get; set; }
         [Required]
