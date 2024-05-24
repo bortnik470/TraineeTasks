@@ -36,7 +36,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DesignPattern-Factory", "De
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DesignPattern-Adapter", "DesignPattern-Adapter\DesignPattern-Adapter.csproj", "{74485D39-1A22-4051-B4D6-96E05A38E25F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentApi", "StudentApi\StudentApi.csproj", "{E6DACE82-22F7-4839-A383-1EA15CEA575E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentApi", "StudentApi\StudentApi.csproj", "{E6DACE82-22F7-4839-A383-1EA15CEA575E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeaturesTest", "FeaturesTest\FeaturesTest.csproj", "{0076DAC3-2CF3-440F-A946-BC7A9B8E6944}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -100,6 +102,10 @@ Global
 		{E6DACE82-22F7-4839-A383-1EA15CEA575E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E6DACE82-22F7-4839-A383-1EA15CEA575E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E6DACE82-22F7-4839-A383-1EA15CEA575E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0076DAC3-2CF3-440F-A946-BC7A9B8E6944}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0076DAC3-2CF3-440F-A946-BC7A9B8E6944}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0076DAC3-2CF3-440F-A946-BC7A9B8E6944}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0076DAC3-2CF3-440F-A946-BC7A9B8E6944}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
