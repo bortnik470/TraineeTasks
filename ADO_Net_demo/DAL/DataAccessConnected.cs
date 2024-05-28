@@ -34,6 +34,7 @@ namespace ADO_Net_demo.DAL
 
                     cmd.ExecuteNonQuery();
 
+
                     sqlTransaction.Commit();
                 }
                 catch (Exception ex)
