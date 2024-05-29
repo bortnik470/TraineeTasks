@@ -1,24 +1,39 @@
-﻿using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows;
+using WPFStudent.Models;
 
 namespace WPFStudent
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
+        public Data _data;
+
         public MainWindow()
         {
             InitializeComponent();
+
+            _data = new Data();
+
+            DataContext = _data;
+        }
+
+        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            _data.StudentsViewModel.IsSearchState = false;
+        }
+
+        private void TextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            _data.StudentsViewModel.IsSearchState = true;
+        }
+
+        private void CreateCourseBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void CreateStudentBtn_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

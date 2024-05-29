@@ -4,9 +4,9 @@ using System.Data.Common;
 using System.Data.SqlClient;
 using WPFStudent.Models;
 
-namespace WPFStudent.Utility
+namespace WPFStudent.Utility.StudentLoaders
 {
-    public class StudentDbLoader : IStudentLoader
+    public class StudentFromDbLoader : IStudentLoader
     {
         private readonly string ConnectionString =
            ConfigurationManager.ConnectionStrings["SqlConnectionString"].ConnectionString;
@@ -16,7 +16,6 @@ namespace WPFStudent.Utility
             string sqlCom = @"Select * from students";
 
             var students = new List<StudentModel>();
-            var courses = new List<CourseModel>();
 
             using (SqlConnection cn = new SqlConnection(ConnectionString))
             {
@@ -36,7 +35,7 @@ namespace WPFStudent.Utility
 
                         var student = new StudentModel()
                         {
-                            Id = Id,
+                            StudentId = Id,
                             FirstName = FirstName,
                             LastName = LastName,
                             PhoneNumber = PhoneNumber,
@@ -46,42 +45,6 @@ namespace WPFStudent.Utility
                         students.Add(student);
                     }
                 }
-
-                sqlCom = @"Select * from courses";
-
-                cmd.CommandText = sqlCom;
-
-                using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
-                {
-                    while (reader.Read())
-                    {
-                        int CourseId = reader.GetInt32(0);
-                        int StudentId = reader.GetInt32(5);
-                        string CourseName = reader.GetString(1);
-                        string Score = reader.GetString(2);
-                        DateOnly StartDate = DateOnly.FromDateTime(reader.GetDateTime(3));
-                        DateOnly EndDate = DateOnly.FromDateTime(reader.GetDateTime(4));
-
-                        var course = new CourseModel()
-                        {
-                            CourseId = CourseId,
-                            StudentId = StudentId,
-                            CourseName = CourseName,
-                            Score = Score,
-                            StartDate = StartDate,
-                            EndDate = EndDate
-                        };
-
-                        courses.Add(course);
-                    }
-                }
-            }
-
-            foreach (var student in students)
-            {
-                student.Courses = courses.
-                    Where(x => x.StudentId.Equals(student.Id)).
-                    ToList();
             }
 
             return students;

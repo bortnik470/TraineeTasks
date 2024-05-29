@@ -12,13 +12,13 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <ListView Margin="10 10 10 10"
-                  ItemsSource="{Binding StudentModels}"
-                  SelectedItem="{Binding CurrentStudent, Mode=TwoWay}"
+                  ItemsSource="{Binding StudentsViewModel.StudentModels}"
+                  SelectedItem="{Binding StudentsViewModel.CurrentStudent, Mode=TwoWay}"
+                  SelectionChanged="ListView_SelectionChanged"
             />
 
         <Grid Grid.Column="1"
-              Visibility="{Binding IsStudentSelected, Converter={StaticResource BooleanToVisibilityConv}}"
-              >
+              Visibility="{Binding StudentsViewModel.IsStudentSelected, Converter={StaticResource BooleanToVisibilityConv}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="2*"/>
@@ -27,7 +27,7 @@
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <StackPanel Grid.ColumnSpan="2">
+            <StackPanel Grid.ColumnSpan="2" DataContext="{Binding StudentsViewModel}">
                 <StackPanel Margin="10,0,0,0" HorizontalAlignment="Left">
                     <Label Height="25">First name:</Label>
                     <TextBox Width="450"
@@ -49,32 +49,7 @@
                          Text="{Binding CurrentStudent.GroupName}"/>
                 </StackPanel>
             </StackPanel>
-            <ListView Grid.Row="1" 
-                      ItemsSource="{Binding CurrentStudent.Courses}"
-                      SelectedItem="{Binding CurrentCourse}"
-                      DisplayMemberPath="CourseName"
-                      Margin="10 0 5 10"/>
-
-            <StackPanel Grid.Row="1" Grid.Column="1"
-                        Visibility="{Binding IsCourseSelected, 
-                                    Converter={StaticResource BooleanToVisibilityConv}}">
-                <StackPanel Margin="5,0,5,0" >
-                    <Label>Course name:</Label>
-                    <TextBox Text="{Binding CurrentCourse.CourseName, Mode=OneWay}"/>
-                </StackPanel>
-                <StackPanel Margin="5,0,5,0" >
-                    <Label>Score:</Label>
-                    <TextBox Text="{Binding CurrentCourse.Score, Mode=OneWay}"/>
-                </StackPanel>
-                <StackPanel Margin="5,0,5,0" >
-                    <Label>Start date:</Label>
-                    <TextBox Text="{Binding CurrentCourse.StartDate, Mode=OneWay}"/>
-                </StackPanel>
-                <StackPanel Margin="5,0,5,0" >
-                    <Label>End date:</Label>
-                    <TextBox Text="{Binding CurrentCourse.EndDate, Mode=OneWay}"/>
-                </StackPanel>
-            </StackPanel>
+            <local:CourseControl Grid.Row="1" Grid.ColumnSpan="2"/>
         </Grid>
     </Grid>
 </UserControl>

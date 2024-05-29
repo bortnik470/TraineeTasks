@@ -2,22 +2,24 @@
 using WPFStudent.Views;
 using WPFStudent.Utility;
 using WPFStudent.Models;
+using System.ComponentModel;
 
 namespace WPFStudent.Controls
 {
     public partial class StudentControl : UserControl
     {
-        private StudentsView StudentsView; 
-
         public StudentControl()
         {
             InitializeComponent();
+        }
 
-            StudentsView = new StudentsView(new StudentDbLoader());
+        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count == 0) return;
 
-            DataContext = StudentsView;
-
-            StudentsView.LoadAsync();
+            var data = (Parent as Grid)?.DataContext as Data;
+            var student = e.AddedItems[0] as StudentModel;
+            data.CoursesViewModel.CurrentStudenId = student.StudentId;
         }
     }
 }

@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WPFStudent.Models;
 
-namespace WPFStudent.Utility
+namespace WPFStudent.Utility.CourseLoaders
 {
-    public interface IStudentLoader
+    public interface ICourseLoader
     {
-        Task<IEnumerable<StudentModel>> LoadAsync();
+        Task<IEnumerable<CourseModel>> LoadAsync();
     }
 }

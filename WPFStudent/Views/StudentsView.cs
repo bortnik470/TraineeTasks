@@ -2,64 +2,70 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using WPFStudent.Models;
-using WPFStudent.Utility;
+using WPFStudent.Utility.StudentLoaders;
 
 namespace WPFStudent.Views
 {
-    public class StudentsView : INotifyPropertyChanged
+    public class StudentsView : BasicView
     {
-        private IStudentLoader _studentLoader;
         private StudentModel? _currentStudent;
-        private CourseModel? _currentCourse;
+        private IStudentLoader _studentLoader;
+        private List<StudentModel?> _studentModels;
+        private string textForSearch;
 
-        public event PropertyChangedEventHandler? PropertyChanged;
+        public List<StudentModel?> StudentModels
+        {
+            get
+            {
+                var result = string.IsNullOrEmpty(TextForSearch) ? _studentModels :
+                    _studentModels.FindAll(x => x.FirstName.ToLower().
+                                                Contains(TextForSearch));
 
-        public ObservableCollection<StudentModel> StudentModels { get; set; }
+                return result;
+            }
+            set => _studentModels = value;
+        }
+
+        public string TextForSearch
+        {
+            get => textForSearch;
+            set
+            {
+                textForSearch = value;
+                RaisePropertyChangedEvent();
+                RaisePropertyChangedEvent(nameof(StudentModels));
+            }
+        }
 
         public StudentModel? CurrentStudent
         {
-            get => _currentStudent;
+            get => _currentStudent?.Clone();
             set
             {
+                if (IsSearchState) return;
+
                 _currentStudent = value;
                 RaisePropertyChangedEvent();
                 RaisePropertyChangedEvent(nameof(IsStudentSelected));
             }
         }
-
-        public CourseModel? CurrentCourse
-        {
-            get => _currentCourse;
-            set
-            {
-                _currentCourse = value;
-                RaisePropertyChangedEvent();
-                RaisePropertyChangedEvent(nameof(IsCourseSelected));
-            }
-        }
+        public bool IsSearchState {  get; set; }
 
         public bool IsStudentSelected => CurrentStudent != null;
-        public bool IsCourseSelected => CurrentCourse != null;
 
         public StudentsView(IStudentLoader studentLoader)
         {
             _studentLoader = studentLoader;
-            StudentModels = new();
+            _studentModels = new List<StudentModel?>();
+            textForSearch = string.Empty;
+            IsSearchState = false;
         }
 
-        public async void LoadAsync()
+        public override async Task LoadAsync()
         {
             var students = await _studentLoader.LoadAsync();
 
-            foreach (var student in students)
-            {
-                StudentModels.Add(student);
-            }
-        }
-
-        private void RaisePropertyChangedEvent([CallerMemberName] string? propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            _studentModels.AddRange(students);
         }
     }
 }
