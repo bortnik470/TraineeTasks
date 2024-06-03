@@ -49,5 +49,34 @@ namespace WPFStudent.Utility.StudentLoaders
 
             return students;
         }
+
+        public int GetLastStudentId()
+        {
+            string sqlCom = "GetLastStudentId";
+
+            int result = 0;
+
+            using (SqlConnection cn = new SqlConnection(ConnectionString))
+            {
+                cn.Open();
+
+                SqlCommand cmd = new SqlCommand(sqlCom, cn);
+
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add(new SqlParameter()
+                {
+                    SqlDbType = SqlDbType.Int,
+                    ParameterName = "@studentId",
+                    Direction = ParameterDirection.Output
+                });
+
+                cmd.ExecuteNonQuery();
+
+                result = int.Parse(cmd.Parameters[0].Value.ToString());
+            }
+
+            return result;
+        }
     }
 }

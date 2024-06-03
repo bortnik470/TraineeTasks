@@ -9,6 +9,18 @@
         Title="MainWindow" Height="450" Width="800">
 
     <Grid Background="Ivory">
+        <Grid.Resources>
+            <Style TargetType="TextBox">
+                <Style.Triggers>
+                    <Trigger Property="Validation.HasError" Value="True">
+                        <Setter Property="ToolTip"
+                                Value="{Binding RelativeSource={RelativeSource Self},
+                                        Path=(Validation.Errors)[0].ErrorContent}"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </Grid.Resources>
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
             <RowDefinition />
@@ -32,16 +44,16 @@
                 <Button Width="100" Height="20" 
                         HorizontalAlignment="Right" 
                         Margin="0,0,15,0" 
-                        Background="White"> 
+                        Background="White"
+                        Click="CreateStudentBtn_Click"> 
                     <TextBlock Text="Create student"/>
                 </Button>
-                
+
                 <Button Width="100" Height="20" 
                         HorizontalAlignment="Left" 
                         Margin="0,0,5,0" 
                         Background="White"
-                        Visibility="{Binding StudentsViewModel.IsStudentSelected, Converter={StaticResource BooleanToVisibilityConv}}"
-                        Click="CreateCourseBtn_Click"> 
+                        Command="{Binding CreateCourseCommand}">
                     <TextBlock Text="Create course"/>
                 </Button>
             </StackPanel>
@@ -51,8 +63,8 @@
                         HorizontalAlignment="Right" 
                         Margin="0,0,5,0" 
                         Background="White"
-                        Visibility="{Binding StudentsViewModel.IsStudentSelected, Converter={StaticResource BooleanToVisibilityConv}}">
-                    <TextBlock Text="Save changes"/>
+                        Command="{Binding UpdateDbCommand}">
+                    <TextBlock Text="Save to database"/>
                 </Button>
             </StackPanel>
         </Grid>

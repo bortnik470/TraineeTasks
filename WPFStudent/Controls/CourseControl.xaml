@@ -12,30 +12,55 @@
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
         <ListView 
-          ItemsSource="{Binding CourseModels}"
-          SelectedItem="{Binding CurrentCourse}"
+          ItemsSource="{Binding CourseModels, Mode=OneWay}"
+          SelectedItem="{Binding CurrentCourse, Mode=TwoWay}"
           DisplayMemberPath="CourseName"
           Margin="10 0 5 10"/>
 
-        <StackPanel Grid.Column="1"
+        <Grid Grid.Column="1" HorizontalAlignment="Left"
             Visibility="{Binding IsCourseSelected, 
-                        Converter={StaticResource BooleanToVisibilityConv}}">
-            <StackPanel Margin="5,0,5,0" >
-                <Label>Course name:</Label>
-                <TextBox Text="{Binding CurrentCourse.CourseName, Mode=OneWay}"/>
+                        Converter={StaticResource BooleanToVisibilityConv}}"
+              Margin="0 0 0 10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Width="250">
+                <StackPanel Margin="5,0,3,0">
+                    <Label>Course name:</Label>
+                    <TextBox Text="{Binding CurrentCourse.CourseName, Mode=TwoWay}"/>
+                </StackPanel>
+                <StackPanel Margin="5,0,5,0" Grid.Row="1">
+                    <Label>Score:</Label>
+                    <TextBox Text="{Binding CurrentCourse.Score, Mode=TwoWay}"/>
+                </StackPanel>
+                <StackPanel Margin="5,0,5,0" Grid.Row="2">
+                    <Label>Start date:</Label>
+                    <TextBox Text="{Binding CurrentCourse.StartDate, Mode=TwoWay}"/>
+                </StackPanel>
+                <StackPanel Margin="5,0,5,0" Grid.Row="3">
+                    <Label>End date:</Label>
+                    <TextBox Text="{Binding CurrentCourse.EndDate, Mode=TwoWay}"/>
+                </StackPanel>
             </StackPanel>
-            <StackPanel Margin="5,0,5,0" >
-                <Label>Score:</Label>
-                <TextBox Text="{Binding CurrentCourse.Score, Mode=OneWay}"/>
+
+            <StackPanel Grid.Column="1" Width="100" Margin="10 20 5 10">
+                <Button Margin="5 4 5 5"
+                        Command="{Binding SaveCourseCommand}">
+                    <TextBlock Text="Save course"/>
+                </Button>
+
+                <Button Margin="5 19 5 5"
+                        Command="{Binding DeleteCourseCommand}">
+                    <TextBlock Text="Delete course"/>
+                </Button>
+
+                <Button Margin="5 19 5 5" 
+                        Command="{Binding ClearCourseCommand}">
+                    <TextBlock Text="Clear"/>
+                </Button>
             </StackPanel>
-            <StackPanel Margin="5,0,5,0" >
-                <Label>Start date:</Label>
-                <TextBox Text="{Binding CurrentCourse.StartDate, Mode=OneWay}"/>
-            </StackPanel>
-            <StackPanel Margin="5,0,5,0" >
-                <Label>End date:</Label>
-                <TextBox Text="{Binding CurrentCourse.EndDate, Mode=OneWay}"/>
-            </StackPanel>
-        </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>

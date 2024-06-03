@@ -6,22 +6,24 @@
              xmlns:local="clr-namespace:WPFStudent.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
     <Grid Background="AliceBlue">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <ListView Margin="10 10 10 10"
-                  ItemsSource="{Binding StudentsViewModel.StudentModels}"
-                  SelectedItem="{Binding StudentsViewModel.CurrentStudent, Mode=TwoWay}"
+                  DataContext="{Binding StudentsViewModel}"
+                  ItemsSource="{Binding StudentModels, Mode=OneWay}"
+                  SelectedItem="{Binding CurrentStudent, Mode=TwoWay}"
                   SelectionChanged="ListView_SelectionChanged"
-            />
-
+            >
+        </ListView>
         <Grid Grid.Column="1"
               Visibility="{Binding StudentsViewModel.IsStudentSelected, Converter={StaticResource BooleanToVisibilityConv}}">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="450"/>
                 <ColumnDefinition/>
-                <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition/>
@@ -31,12 +33,12 @@
                 <StackPanel Margin="10,0,0,0" HorizontalAlignment="Left">
                     <Label Height="25">First name:</Label>
                     <TextBox Width="450"
-                         Text="{Binding CurrentStudent.FirstName}"/>
+                         Text="{Binding CurrentStudent.FirstName, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
                 <StackPanel Margin="10,0,0,0" HorizontalAlignment="Left">
                     <Label Height="25">Last name:</Label>
                     <TextBox Width="450"
-                         Text="{Binding CurrentStudent.LastName}"/>
+                         Text="{Binding CurrentStudent.LastName, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
                 <StackPanel Margin="10,0,0,0" HorizontalAlignment="Left">
                     <Label Height="26">Phone number:</Label>
@@ -45,9 +47,27 @@
                 </StackPanel>
                 <StackPanel Margin="10,0,0,0" HorizontalAlignment="Left">
                     <Label Height="25">Group name:</Label>
-                    <TextBox Width="450"
-                         Text="{Binding CurrentStudent.GroupName}"/>
+                    <TextBox Width="450" 
+                         Text="{Binding CurrentStudent.GroupName, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Width="100" 
+                        Margin="10,20,5,10" 
+                        DataContext="{Binding StudentsViewModel}">
+                <Button Margin="5 4 5 5"
+                        Command="{Binding SaveStudentCommand, ValidatesOnDataErrors=True}">
+                    <TextBlock Text="Save"/>
+                </Button>
+
+                <Button Margin="5 19 5 5"
+                        Command="{Binding DeleteStudentCommand}">
+                    <TextBlock Text="Delete"/>
+                </Button>
+
+                <Button Margin="5 19 5 5" 
+                        Command="{Binding ClearStudentCommand}">
+                    <TextBlock Text="Clear"/>
+                </Button>
             </StackPanel>
             <local:CourseControl Grid.Row="1" Grid.ColumnSpan="2"/>
         </Grid>

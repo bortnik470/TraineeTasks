@@ -11,5 +11,6 @@ namespace WPFStudent.Utility.StudentLoaders
     public interface IStudentLoader
     {
         Task<IEnumerable<StudentModel>> LoadAsync();
+        int GetLastStudentId();
     }
 }
